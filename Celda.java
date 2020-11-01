@@ -59,12 +59,27 @@ public class Celda {
           return this.Celda;
       }
         //Imrimir celdas
-        public void imprimeCelda(Celda a){
-            String aux=String.format("|                 "+"%-9s"+"          \n", a.pais.getNombrePais());
+         public void imprimeCelda(){
+            String aux=String.format("|                 "+"%-9s"+"          |\n", pais.getNombrePais());
             System.out.println("-------------------------------------\n");
-            System.out.println("|                                   \n");
+            System.out.println("|                                   |\n");
             System.out.println(aux);
-            System.out.println("|                                   \n");
+            System.out.println("|                                   |\n");
+            System.out.println("-------------------------------------\n");
+        }
+        public void imprimeCeldafrontO(){
+            String aux=String.format("%s", Celda);
+            System.out.println("-------------------------------------\n");
+            System.out.println("|                                   |\n");
+            System.out.println(aux);
+            System.out.println("|                                   |\n");
+            System.out.println("-------------------------------------\n");
+        }
+        public void imprimeCeldaOc(){
+            System.out.println("-------------------------------------\n");
+            System.out.println("|                                   |\n");
+            System.out.println("|                                   |\n");
+            System.out.println("|                                   |\n");
             System.out.println("-------------------------------------\n");
         }
         //Creacion de celdas
