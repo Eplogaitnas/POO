@@ -168,11 +168,23 @@ public class Mapa {
     
      
     
-    public void imprimeMapa(){
-        for (int i = 0; i < tamaño.x; i++) {
+     public void imprimeMapa(){
+        int i=0,j=0;
+        Point a=new Point(i,j);
+        Celda k;
+        for (i = 0; i < 11; i++) {
             System.out.print("\n");
-            for (int j = 0; j < tamaño.y; j++) {
-                
+            for (j = 0; j < 8; j++) {
+                k=mapa.get(a);
+                if(mapa.get(a).getTipoCelda().equals("Oceano")){
+                    k.imprimeCeldaOc();
+                }
+                if(mapa.get(a).getTipoCelda().equals("Frontera Oceanica 1")){
+                    k.imprimeCeldafrontO();
+                }
+                if(mapa.get(a).getTipoCelda().equals("Pais")){
+                    k.imprimeCelda();
+                }
             }
         }
     }
