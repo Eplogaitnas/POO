@@ -159,6 +159,8 @@ public class Mapa {
         AsignaFrontO("                    |               \n"
                 + "                    |               ",5,3);
         AsignaFrontO("                    |               \n"
+                + "                    |               ",6,3);
+        AsignaFrontO("                    |               \n"
                 + "                    |               ",9,5);
         
     }
