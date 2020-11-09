@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Mapa;
 import java.awt.Point;
 import java.util.HashMap;
 import java.awt.Color;
 import Continentes.Continente;
 import Continentes.Pais;
+import Mapa.Celda;
 import java.util.ArrayList;
 /**
  *
@@ -16,24 +12,18 @@ import java.util.ArrayList;
  */
 public class Mapa {
     private HashMap<Point, Celda> mapa;
-    private final Point tamaño;;
     
+    
+    
+    
+    public Mapa() {
+        this.mapa = new HashMap<>();
+    }
     
     public HashMap<Point, Celda> getMapa() {
         return mapa;
     }
     
-    public Mapa(int x, int y) {
-
-        this.tamaño = new Point(x, y);
-        this.mapa = new HashMap<>();
-        for (int i = 0; i < tamaño.x; i++) {
-            for (int j = 0; j < tamaño.y; j++) {
-                Celda celda = new Celda();
-                this.insertaCelda(i, j, celda);
-            }
-        }
-    }
     public void insertaCelda(int x, int y, Celda celda) {
 
         Point punto = new Point(x, y);
@@ -48,8 +38,8 @@ public class Mapa {
         Pais Pais=new Pais(Nombre,cont);
         creaCeldaPais(Pais,x,y);
     }
-   public void AsignaFrontO(String Fr,int x, int y){
-       Celda c=new Celda(Fr);
+   public void AsignaFrontO(String Fr,int x, int y,int clase){
+       Celda c=new Celda(Fr,clase);
        this.insertaCelda(x,y,c);
    }
    
@@ -147,45 +137,67 @@ public class Mapa {
     }
     
     public void creaFrontO(){
-        AsignaFrontO("-----------------------------------",3,0);
-        AsignaFrontO("-----------------------------------",9,0);
-        AsignaFrontO("-----------------------------------",10,0);
-        AsignaFrontO("                                  |\n"
-                + "                                  |"
-                + "\n-----------------------------------",3,5);
-        AsignaFrontO("-----------------------------------\n"
-                + "|                                  \n"
-                + "|                                  ",4,4);
-        AsignaFrontO("                    |               \n"
-                + "                    |               ",5,3);
-        AsignaFrontO("                    |               \n"
-                + "                    |               ",6,3);
-        AsignaFrontO("                    |               \n"
-                + "                    |               ",9,5);
+        AsignaFrontO("|-----------------------------------|",3,0,1);
+        AsignaFrontO("|-----------------------------------|",9,0,1);
+        AsignaFrontO("|-----------------------------------|",10,0,1);
+        AsignaFrontO("                                  |"
+                + "\n-----------------------------------",3,5,1);
+        AsignaFrontO("|-----------------------------------|\n",4,4,1);
+        AsignaFrontO("|                    |               |\n",5,3,2);
+        AsignaFrontO("|                    |               |\n",6,3,2);
+        AsignaFrontO("|                    |               |\n",9,5,2);
         
     }
    
     
      
     
-     public void imprimeMapa(){
-        int i=0,j=0;
-        Point a=new Point(i,j);
+    public void imprimeMapa(){
+        int i,j,m;
         Celda k;
-        for (i = 0; i < 11; i++) {
-            System.out.print("\n");
-            for (j = 0; j < 8; j++) {
-                k=mapa.get(a);
-                if(mapa.get(a).getTipoCelda().equals("Oceano")){
-                    k.imprimeCeldaOc();
+            for (j = 0; j < 8; j++){
+                m=0;
+                System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                System.out.println("|                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   |");
+                for(i=0;i<11;i++){
+                    Point a=new Point(i,j);
+                    k=mapa.get(a);
+                    if(k.getTipoCelda().equals("Oceano")){
+                        k.imprimeCeldaOc();
+                    }
+                    if(k.getTipoCelda().equals("Pais")){
+                        k.imprimeCelda();
+                    }
+                    if(k.getTipoCelda().equals("Frontera Oceanica")){
+                        k.imprimeCeldafrontO();
+                        if(k.getclase()==2){
+                            m++;
+                        }
+                    }
+                    if(i==10){
+                        System.out.print("\n");
+                        if(m==0){
+                            System.out.println("|                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   |");
+                            System.out.println("|                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   |");
+                            System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                        }
+                        if(m==1){
+                           System.out.println("|                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                    "+"\u001B[31m"+"|"+ "\u001B[0m"+"               ||                                   |");
+                           System.out.println("|                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                    "+"\u001B[31m"+"|"+ "\u001B[0m"+"              ||                                   |");
+                           System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                         
+                        }
+                        if(m==2){
+                           System.out.println("|                                   ||                                   ||                                   ||                                   ||                                   ||                    "+"\u001B[31m"+"|"+ "\u001B[0m"+"              ||                     "+"\u001B[31m"+"|"+ "\u001B[0m"+"             ||                                   ||                                   ||                                    ||                                   |");
+                           System.out.println("|                                   ||                                   ||                                   ||                                   ||                                   ||                    "+"\u001B[31m"+"|"+ "\u001B[0m"+"              ||                     "+"\u001B[31m"+"|"+ "\u001B[0m"+"             ||                                   ||                                   ||                                    ||                                   |");
+                           System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                         
+                        }
+                    }
                 }
-                if(mapa.get(a).getTipoCelda().equals("Frontera Oceanica 1")){
-                    k.imprimeCeldafrontO();
-                }
-                if(mapa.get(a).getTipoCelda().equals("Pais")){
-                    k.imprimeCelda();
-                }
+                
             }
-        }
+            }
+        
+        
     }
-}
