@@ -31,6 +31,9 @@ public class Pais {
     public Jugador getJugador(){
         return this.nombre_j;
     }
+    public Color getColor(){
+        return this.color;
+    }
     //Creacion de paises
    
 }
