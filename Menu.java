@@ -28,14 +28,15 @@ public class Menu {
         // Iniciar juego
         String orden= null;
         BufferedReader bufferLector= null;
-        try {
-            File fichero=  new File("comandos.csv");
-            FileReader lector= new FileReader(fichero);
-            bufferLector= new BufferedReader(lector);
-            while((orden= bufferLector.readLine())!=null) {
-                System.out.println("$> " + orden);
-                String[] partes=orden.split(" ");
-                String comando= partes[0];
+        //try {
+           // File fichero=  new File("comandos.csv");
+           // FileReader lector= new FileReader(fichero);
+           // bufferLector= new BufferedReader(lector);
+           // while((orden= bufferLector.readLine())!=null) {
+             //   System.out.println("$> " + orden);
+               // String[] partes=orden.split(" ");
+                //String comando= partes[0];
+                String comando="crear";
                 // COMANDOS INICIALES PARA EMPEZAR A JUGAR
                 //    crear mapa
                 //    crear jugadores <nombre_fichero>
@@ -58,16 +59,18 @@ public class Menu {
                 //    ver pais <nombre_pais>
                 switch(comando) {
                     case "crear":
-                        if(partes.length==2) {
-                            if(partes[1].equals("mapa")) {
+                        //if(partes.length==2) {
+                            //if(partes[1].equals("mapa")) {
                                 // crearMapa es un método de la clase Menú desde el que se puede invocar
                                 // a otros métodos de las clases que contienen los atributos y los métodos
                                 // necesarios para realizar esa invocación 
+                        
                                 crearMapa();
-                            } else {
-                                System.out.println("\nComando incorrecto.");
-                            }
-                        } if(partes.length==3) {
+                                
+                           // } else {
+                            //    System.out.println("\nComando incorrecto.");
+                           // }
+                       /* } if(partes.length==3) {
                             if(partes[1].equals("jugadores")) { 
                                 crearJugador(new File(partes[2]));
                             } else {
@@ -75,9 +78,9 @@ public class Menu {
                             }
                         } else {
                             System.out.println("\nComando incorrecto.");
-                        }
+                        }*/
                         break;
-                    case "asignar":
+                    /*case "asignar":
                         if(partes.length!=3) {
                             System.out.println("\nComando incorrecto.");
                         } else if(partes[1].equals("paises")) {
@@ -92,11 +95,11 @@ public class Menu {
                         break;
                     default:
                         System.out.println("\nComando incorrecto.");
-                }
+                }*/
             }
-        } catch(Exception excepcion) {
-            excepcion.printStackTrace();
-        }
+       /* } catch(Exception excepcion) {
+            excepcion.printStackTrace();*/
+        //}
     }
 
     /**
@@ -121,8 +124,12 @@ public class Menu {
      */
     public void crearMapa() {
         // Código necesario para crear el mapa
-        Mapa mapa=new Mapa(10,7);
+        Mapa mapa=new Mapa();
         mapa.CreageoMapa();
+        mapa.creaFrontO();
+        mapa.CreaOceano();
+        mapa.imprimeMapa();
+        
     }
         
     /**
