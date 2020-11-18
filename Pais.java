@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import Ejercitos.Ejercito;
 import Jugadores.Jugador;
+import java.awt.Point;
 /**
  *
  * @author Santiago Golpe
@@ -15,15 +16,19 @@ import Jugadores.Jugador;
 public class Pais {
     private String Nombre;
     private Color color;
-    public Jugador nombre_j;
+    private Jugador nombre_j;
     private Ejercito Ejercito;
     private Continente Continente;
-    private ArrayList<Pais> Fronteras;
+    private ArrayList<Point> Fronteras;
     
-    public Pais(String nombre, Continente continente){
+    public Pais(){
+        
+    }
+    public Pais(String nombre, Continente continente,ArrayList<Point> L ){
       this.Nombre=nombre;
       this.Continente=continente;
       this.color=continente.getColorcontinente();
+      this.Fronteras=L;
     }
     public String getNombrePais(){
         return this.Nombre;
@@ -34,6 +39,10 @@ public class Pais {
     public Color getColor(){
         return this.color;
     }
+    public ArrayList getFrontera(){
+        return this.Fronteras;
+    }
+    
     //Creacion de paises
-   
+  
 }
