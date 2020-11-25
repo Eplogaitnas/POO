@@ -691,5 +691,31 @@ public class Mapa {
             }
         }
         
+    public void obtenerfrontera(String Pais){
+            int i,j,m;
+            Celda k,n;
+            Point p;
+            String aux,aux2;
+            ArrayList<Point> J;
+            for(i=0;i<11;i++){
+                for(j=0;j<8;j++){
+                    p=new Point(i,j);
+                    k=mapa.get(p);
+                    if(k.getTipoCelda().equals("Pais")){
+                        if(k.getPaisCelda().getNombrePais().equals(Pais)){
+                            aux2=String.format("Fronteras de %s :", k.getPaisCelda().getNombrePais());
+                            System.out.print(aux2);
+                            J=k.getPaisCelda().getFrontera();
+                            for(m=0;m<J.size();m++){
+                                n=mapa.get(J.get(m));
+                                aux=String.format(" %s, ", n.getPaisCelda().getNombrePais());
+                                System.out.print(aux);
+                            }
+                            System.out.print("\n");
+                        }
+                    }
+                }
+            }
+        }
         
 }
