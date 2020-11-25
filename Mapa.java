@@ -742,4 +742,25 @@ public class Mapa {
                 }
             }
         }
+    public void obtenercolor(String Pais){
+            int i,j;
+            Celda k;
+            Point p;
+            String aux,aux2;
+            for(i=0;i<11;i++){
+                for(j=0;j<8;j++){
+                    p=new Point(i,j);
+                    k=mapa.get(p);
+                    if(k.getTipoCelda().equals("Pais")){
+                        if(k.getPaisCelda().getNombrePais().equals(Pais)){
+                            aux2=String.format("Color de %s :", k.getPaisCelda().getNombrePais());
+                            System.out.print(aux2);
+                            aux=String.format("%s", k.getPaisCelda().getColor());
+                            System.out.print(aux);
+                            System.out.print("\n");
+                        }
+                    }
+                }
+            }
+        }
 }
