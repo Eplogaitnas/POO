@@ -491,7 +491,8 @@ public class Mapa {
     
     
     public void imprimeMapa(){
-        int i,j,m;
+        int i,j,m,b,c,d,e,f,g,h,l,n,o,p;
+        String aux0=new String(),aux1=new String(),aux2=new String(),aux3=new String(),aux4=new String(),aux5=new String(),aux6=new String(),aux7=new String(),aux8=new String(),aux9=new String(),aux10=new String();
         Celda k;
             for (j = 0; j < 8; j++){
                 m=0;
@@ -502,32 +503,156 @@ public class Mapa {
                     k=mapa.get(a);
                     if(k.getTipoCelda().equals("Oceano")){
                         k.imprimeCeldaOc();
+                        switch (i) {
+                            case 0:
+                                aux0=String.format(" ");
+                                break;
+                            case 1:
+                                aux1=String.format(" ");
+                                break;
+                            case 2:
+                                aux2=String.format(" ");
+                                break;
+                            case 3:
+                                aux3=String.format(" ");
+                                break;
+                            case 4:
+                                aux4=String.format(" ");
+                                break;
+                            case 5:
+                                aux5=String.format(" ");
+                                break;
+                            case 6:
+                                aux6=String.format(" ");
+                                break;
+                            case 7:
+                                aux7=String.format(" ");
+                                break;
+                            case 8:
+                                aux8=String.format(" ");
+                                break;
+                            case 9:
+                                aux9=String.format(" ");
+                                break;
+                            case 10:
+                                aux10=String.format(" ");
+                                break;
+                            default:
+                                break;
+                        }
+                        
                     }
                     if(k.getTipoCelda().equals("Pais")){
                         k.imprimeCelda();
+                        switch (i) {
+                            case 0:
+                                b=k.getPaisCelda().getEjercito();
+                                aux0=String.format("%d",b);
+                                break;
+                            case 1:
+                                c=k.getPaisCelda().getEjercito();
+                                aux1=String.format("%d",c);
+                                break;
+                            case 2:
+                                d=k.getPaisCelda().getEjercito();
+                                aux2=String.format("%d",d);
+                                break;
+                            case 3:
+                                e=k.getPaisCelda().getEjercito();
+                                aux3=String.format("%d",e);
+                                break;
+                            case 4:
+                                f=k.getPaisCelda().getEjercito();
+                                aux4=String.format("%d",f);
+                                break;
+                            case 5:
+                                g=k.getPaisCelda().getEjercito();
+                                aux5=String.format("%d",g);
+                                break;
+                            case 6:
+                                h=k.getPaisCelda().getEjercito();
+                                aux6=String.format("%d",h);
+                                break;
+                            case 7:
+                                l=k.getPaisCelda().getEjercito();
+                                aux7=String.format("%d",l);
+                                break;
+                            case 8:
+                                n=k.getPaisCelda().getEjercito();
+                                aux8=String.format("%d",n);
+                                break;
+                            case 9:
+                                o=k.getPaisCelda().getEjercito();
+                                aux9=String.format("%d",o);
+                                break;
+                            case 10:
+                                p=k.getPaisCelda().getEjercito();
+                                aux10=String.format("%d",p);
+                                break;
+                            default:
+                                break;
+                        }
                     }
                     if(k.getTipoCelda().equals("Frontera Oceanica")){
                         k.imprimeCeldafrontO();
                         if(k.getclase()==2){
                             m++;
                         }
+                        switch (i) {
+                            case 0:
+                                aux0=String.format(" ");
+                                break;
+                            case 1:
+                                aux1=String.format(" ");
+                                break;
+                            case 2:
+                                aux2=String.format(" ");
+                                break;
+                            case 3:
+                                aux3=String.format(" ");
+                                break;
+                            case 4:
+                                aux4=String.format(" ");
+                                break;
+                            case 5:
+                                aux5=String.format(" ");
+                                break;
+                            case 6:
+                                aux6=String.format(" ");
+                                break;
+                            case 7:
+                                aux7=String.format(" ");
+                                break;
+                            case 8:
+                                aux8=String.format(" ");
+                                break;
+                            case 9:
+                                aux9=String.format(" ");
+                                break;
+                            case 10:
+                                aux10=String.format(" ");
+                                break;
+                            default:
+                                break;
+                        }
+                        
                     }
                     if(i==10){
                         System.out.print("\n");
                         if(m==0){
                             System.out.println("|                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   |");
-                            System.out.println("|                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   |");
+                            System.out.println("|                                  "+ aux0 +"||                                  "+ aux1 +"||                                  "+ aux2 +"||                                  "+ aux3 +"||                                  "+ aux4 +"||                                  "+ aux5 +"||                                  "+ aux6 +"||                                  "+ aux7 +"||                                  "+ aux8 +"||                                  "+ aux9 +"||                                  "+ aux10 +"|");
                             System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
                         }
                         if(m==1){
                            System.out.println("|                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                    "+"\u001B[31m"+"|"+ "\u001B[0m"+"               ||                                   |");
-                           System.out.println("|                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                                   ||                    "+"\u001B[31m"+"|"+ "\u001B[0m"+"              ||                                   |");
+                           System.out.println("|                                  "+ aux0 +"||                                  "+ aux1 +"||                                  "+ aux2 +"||                                  "+ aux3 +"||                                  "+ aux4 +"||                                  "+ aux5 +"||                                  "+ aux6 +"||                                  "+ aux7 +"||                                  "+ aux8 +"||                    "+"\u001B[31m"+"|"+ "\u001B[0m"+"              ||                                  "+ aux10 +"|");
                            System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
                          
                         }
                         if(m==2){
                            System.out.println("|                                   ||                                   ||                                   ||                                   ||                                   ||                    "+"\u001B[31m"+"|"+ "\u001B[0m"+"              ||                     "+"\u001B[31m"+"|"+ "\u001B[0m"+"             ||                                   ||                                   ||                                    ||                                   |");
-                           System.out.println("|                                   ||                                   ||                                   ||                                   ||                                   ||                    "+"\u001B[31m"+"|"+ "\u001B[0m"+"              ||                     "+"\u001B[31m"+"|"+ "\u001B[0m"+"             ||                                   ||                                   ||                                    ||                                   |");
+                           System.out.println("|                                  "+ aux0 +"||                                  "+ aux1 +"||                                  "+ aux2 +"||                                  "+ aux3 +"||                                  "+ aux4 +"||                    "+"\u001B[31m"+"|"+ "\u001B[0m"+"              ||                     "+"\u001B[31m"+"|"+ "\u001B[0m"+"             ||                                  "+ aux7 +"||                                  "+ aux8 +"||                                   "+ aux9 +"||                                  "+ aux10 +"|");
                            System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
                          
                         }
