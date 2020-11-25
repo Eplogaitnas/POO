@@ -763,4 +763,25 @@ public class Mapa {
                 }
             }
         }
+       
+    public void obtenerpaises(String Continente){
+            int i,j;
+            Celda k;
+            Point p;
+            String aux,aux2;
+            aux2=String.format("Paises de %s :", Continente);
+            System.out.print(aux2);
+            for(i=0;i<11;i++){
+                for(j=0;j<8;j++){
+                    p=new Point(i,j);
+                    k=mapa.get(p);
+                    if(k.getTipoCelda().equals("Pais")){
+                        if(k.getPaisCelda().getContinente().getnombre().equals(Continente)){
+                            aux=String.format("%s, ", k.getPaisCelda().getNombrePais());
+                            System.out.print(aux);
+                        }
+                    }
+                }
+            }
+        }
 }
