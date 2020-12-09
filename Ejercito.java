@@ -3,30 +3,40 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Ejercitos;
+package risk;
+
 import Jugadores.Jugador;
-import java.awt.Color;
-import java.awt.Point;
 
 /**
  *
  * @author Santiago Golpe
  */
 public class Ejercito {
+    private Jugador jugador;
     private int numero;
-    private Color color;
-    private Jugador nombre;
-    private Point posicion;
+    private String Color;
+    private String clase;
     
-    public Ejercito (int numero, Jugador nombre, Point posicion){
-        this.numero=numero;
-        this.nombre=nombre;
-        this.posicion=posicion;
-        this.color=nombre.Color;
+    public Ejercito(Jugador J){
+        this.jugador=J;
+        //this.Color=J.getColor();
+        this.numero=0;
     }
     
+    public Jugador getJugador(){
+        return this.jugador;
+    }
     
+    public int getnumero(){
+        return this.numero;
+    }
+    
+    public void setnumero(int i){
+        this.numero=i;
+    }
+    
+    public void setjugador( Jugador J){
+        this.jugador=J;
+    }
     
 }
-    
-    
