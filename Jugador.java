@@ -3,35 +3,61 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Jugadores;
-import Ejercitos.Ejercito;
-import Continentes.Pais;
-import java.awt.Color;
-import Continentes.Continente;
+package Continentes;
 import java.util.ArrayList;
-
+import Jugadores.Jugador;
+import java.awt.Point;
+import risk.Ejercito;
 /**
  *
  * @author Santiago Golpe
  */
-public class Jugador {
+public class Pais {
     private String Nombre;
-    public Color Color;
-    private Ejercito Total;
-    private Pais Paises;
-    private ArrayList<Continente> Continentes;
-    public Mision mision;
+    private String color;
+    public Jugador nombre_j;
+    private Ejercito Ejercito;
+    private Continente Continente;
+    private ArrayList<Point> Fronteras;
+    private int vecesocupado;
     
-    public Jugador(String Nombre,Color Color){
-        this.Nombre=Nombre;
-        this.Color=Color;
-        this.Total=null;
-        this.Continentes=null;
-        this.Paises=null;
-        this.mision=null;
+    public Pais(){
+        
     }
-    
-    public Color getColor(Jugador nombre){
-        return nombre.Color;
+    public Pais(String nombre, Continente continente,ArrayList<Point> L ){
+      this.Nombre=nombre;
+      this.Continente=continente;
+      this.color=continente.getColorcontinente();
+      this.Fronteras=L;
+      this.Ejercito=new Ejercito(this.nombre_j);
+      
     }
+    public String getNombrePais(){
+        return this.Nombre;
+    }
+    public Jugador getJugador(){
+        return this.nombre_j;
+    }
+    public String getColor(){
+        return this.color;
+    }
+    public ArrayList getFrontera(){
+        return this.Fronteras;
+    }
+    public Ejercito getEjercito(){
+        return this.Ejercito;
+    }
+    public Continente getContinente(){
+        return this.Continente;
+    }
+    public ArrayList<Point> getFronteras(){
+        return this.Fronteras;
+    }
+    public void describir_pais(){
+        System.out.println("nombre: "+nombre_j.getNombreJugador()+"abreviatura: "+this.Nombre+", continente: "+this.Continente.getnombre()+", frontera: ");
+        this.Fronteras.forEach((k) -> System.out.println(k+" "));
+        System.out.println("], jugador: "+ this.nombre_j.getNombreJugador()+", numeroEjercitos"+ this.Ejercito.getnumero()+", numeroVecesOcupado"+ this.vecesocupado);
+    }   	
+    //Creacion de paises
+  
 }
