@@ -6,7 +6,6 @@
 package Continentes;
 import java.awt.Color;
 import java.util.ArrayList;
-import Ejercitos.Ejercito;
 import Jugadores.Jugador;
 import java.util.Iterator;
 
@@ -17,22 +16,25 @@ import java.util.Iterator;
 public class Continente {
     private Jugador jugador;
     private String nombre;
-    public Color color;
+    private String color;
     private ArrayList<Pais> Paises;
-    private Ejercito Total_ejercitos;
+    private int Total_ejercitos;
     
   
-    public Continente(String nombre, Color color){
+    public Continente(String nombre, String color){
         this.nombre=nombre;
         this.color=color;
         this.jugador=null;
     }
     
-    public Color getColorcontinente(){
+    public String getColorcontinente(){
         return color;
     }
+    public String getnombre(){
+        return this.nombre;
+    }
     
-    public void setEjercitos(Ejercito total){
+    public void setEjercitos(int total){
         this.Total_ejercitos=total;
     }
    
@@ -42,12 +44,12 @@ public class Continente {
         for (int i=1;i<=Paises.size();i++) {
             Pais Pais1=Paises.get(i-1);
             Pais Pais2=Paises.get(i);
-            if(Pais1.nombre_j==Pais2.nombre_j){
+            if(Pais1.getNombrePais().equals(Pais2.getNombrePais())){
                 j++;
             }
         }
         if(j==Paises.size()-1){
-            this.jugador=Paises.get(0).nombre_j;
+            this.jugador=Paises.get(0).getJugador();
         }
     }
     
