@@ -680,7 +680,7 @@ public class Mapa {
                         if(k.getPaisCelda().getNombrePais().equals(Pais)){
                             aux2=String.format("Fronteras de %s :", k.getPaisCelda().getNombrePais());
                             System.out.print(aux2);
-                            J=k.getPaisCelda().getFrontera();
+                            J=k.getPaisCelda().getFronteras();
                             for(m=0;m<J.size();m++){
                                 n=mapa.get(J.get(m));
                                 aux=String.format(" %s, ", n.getPaisCelda().getNombrePais());
