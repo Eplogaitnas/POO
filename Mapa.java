@@ -61,8 +61,8 @@ public class Mapa {
         Celda c=new Celda(p);
         this.insertaCelda(x,y,c);
     }
-    public void CreaPaises(String Nombre,Continente cont,int x, int y, ArrayList<Point> L){
-        Pais Pais=new Pais(Nombre,cont,L);
+    public void CreaPaises(String Nombre, String Abrev,Continente cont,int x, int y, ArrayList<Point> L){
+        Pais Pais=new Pais(Nombre,Abrev,cont,L);
         creaCeldaPais(Pais,x,y);
     }
    public void AsignaFrontO(String Fr,int x, int y,int clase){
@@ -137,7 +137,7 @@ public class Mapa {
         ALK.add(a);
         a=añadecelda(8,0);
         ALK.add(a);
-        CreaPaises("Alaska",NA,0,0,ALK);
+        CreaPaises("Alaska","Alaska",NA,0,0,ALK);
         
         //ALBERTA
         a=añadecelda(0,0);
@@ -146,14 +146,14 @@ public class Mapa {
         ALB.add(a);
         a=añadecelda(2,0);
         ALB.add(a);
-        CreaPaises("Alberta",NA,0,1,ALB);
+        CreaPaises("Alberta","Alberta",NA,0,1,ALB);
         
         //USAOeste
         a=añadecelda(0,1);
         USO.add(a);
         a=añadecelda(1,2);
         USO.add(a);
-        CreaPaises("USAOeste",NA,0,2,USO);
+        CreaPaises("Estados Unidos del Oeste","USAOeste",NA,0,2,USO);
         
         //TNoroeste
         a=añadecelda(0,0);
@@ -162,7 +162,7 @@ public class Mapa {
         TNO.add(a);
         a=añadecelda(0,2);
         TNO.add(a);
-        CreaPaises("TNoroeste",NA,1,0,TNO);
+        CreaPaises("Territorios del Noroeste","TNoroeste",NA,1,0,TNO);
         
         //ONTARIO
         a=añadecelda(1,0);
@@ -173,7 +173,7 @@ public class Mapa {
         ONT.add(a);
         a=añadecelda(1,2);
         ONT.add(a);
-        CreaPaises("Ontario",NA,1,1,ONT);
+        CreaPaises("Ontario","Ontario",NA,1,1,ONT);
         
         //GROENLANDIA
         
@@ -183,14 +183,14 @@ public class Mapa {
         GRO.add(a);
         a=añadecelda(4,0);
         GRO.add(a);
-        CreaPaises("Groen",NA,2,0,GRO);
+        CreaPaises("Groenlandia","Groen",NA,2,0,GRO);
         
         //QUEBEC
         a=añadecelda(2,0);
         J0.add(a);
         a=añadecelda(1,1);
         J0.add(a);
-        CreaPaises("Quebec",NA,2,1,J0);
+        CreaPaises("Quebec","Quebec",NA,2,1,J0);
         
         //USAEste
         a=añadecelda(0,2);
@@ -199,19 +199,19 @@ public class Mapa {
         J1.add(a);
         a=añadecelda(1,3);
         J1.add(a);
-        CreaPaises("USAEste",NA,1,2,J1);
+        CreaPaises("Estados Unidos del Este","USAEste",NA,1,2,J1);
         
          //AMECENTRAL
         a=añadecelda(1,2);
         J2.add(a);
         a=añadecelda(1,4);
         J2.add(a);
-        CreaPaises("Amecentra",NA,1,3,J2);
+        CreaPaises("América Central ","AmeCentra",NA,1,3,J2);
         
         //ARGENTINA
         a=añadecelda(1,5);
         J3.add(a);
-        CreaPaises("Argentina",SA,1,6,J3);
+        CreaPaises("Argentina","Argentina",SA,1,6,J3);
         //PREU(LE)
         a=añadecelda(1,6);
         J4.add(a);
@@ -219,25 +219,25 @@ public class Mapa {
         J4.add(a);
         a=añadecelda(2,5);
         J4.add(a);
-        CreaPaises("Perú",SA,1,5,J4);
+        CreaPaises("Perú","Perú",SA,1,5,J4);
         //VENEZUELA
         a=añadecelda(1,5);
         J5.add(a);
         a=añadecelda(1,3);
         J5.add(a);
-        CreaPaises("Venezuela",SA,1,4,J5);
+        CreaPaises("Venezuela","Venezuela",SA,1,4,J5);
         //BRASIL
         a=añadecelda(1,5);
         J6.add(a);
         a=añadecelda(5,4);
         J6.add(a);
-        CreaPaises("Brasil",SA,2,5,J6);
+        CreaPaises("Brasil","Brasil",SA,2,5,J6);
         //ISLANDIA
         a=añadecelda(2,0);
         J7.add(a);
         a=añadecelda(5,0);
         J7.add(a);
-        CreaPaises("Islandia",EU,4,0,J7);
+        CreaPaises("Islandia","Islandia",EU,4,0,J7);
         //Escandina
         a=añadecelda(4,0);
         J8.add(a);
@@ -245,7 +245,7 @@ public class Mapa {
         J8.add(a);
         a=añadecelda(6,0);
         J8.add(a);
-        CreaPaises("Escandina",EU,5,0,J8);
+        CreaPaises("Escandinavia","Escandina",EU,5,0,J8);
         //GRAN BRETAÑA
         a=añadecelda(5,0);
         J9.add(a);
@@ -253,7 +253,7 @@ public class Mapa {
         J9.add(a);
         a=añadecelda(6,1);
         J9.add(a);
-        CreaPaises("GBretaña",EU,5,1,J9);
+        CreaPaises("Gran Bretaña","GBretaña",EU,5,1,J9);
         //EurNorte
         a=añadecelda(7,1);
         J10.add(a);
@@ -263,7 +263,7 @@ public class Mapa {
         J10.add(a);
         a=añadecelda(6,2);
         J10.add(a);
-        CreaPaises("EurNorte",EU,6,1,J10);
+        CreaPaises("Europa del Norte","EurNorte",EU,6,1,J10);
         //EurOcc
         a=añadecelda(5,1);
         J11.add(a);
@@ -271,7 +271,7 @@ public class Mapa {
         J11.add(a);
         a=añadecelda(5,4);
         J11.add(a);
-        CreaPaises("EurOcc",EU,5,2,J11);
+        CreaPaises("Europa Occidental","EurOcc",EU,5,2,J11);
         //EurSur
         a=añadecelda(5,2);
         J12.add(a);
@@ -281,7 +281,7 @@ public class Mapa {
         J12.add(a);
         a=añadecelda(6,4);
         J12.add(a);
-        CreaPaises("EurSur",EU,6,2,J12);
+        CreaPaises("Europa del Sur","EurSur",EU,6,2,J12);
         //Rusia
         a=añadecelda(7,1);
         J13.add(a);
@@ -291,7 +291,7 @@ public class Mapa {
         J13.add(a);
         a=añadecelda(7,0);
         J13.add(a);
-        CreaPaises("Rusia",EU,7,1,J13);
+        CreaPaises("Rusia","Rusia",EU,7,1,J13);
         //ANorte
         J14.clear();
         a=añadecelda(5,2);
@@ -300,7 +300,7 @@ public class Mapa {
         J14.add(a);
         a=añadecelda(5,5);
         J14.add(a);
-        CreaPaises("ANorte",AF,5,4,J14);
+        CreaPaises("África del Norte","ANorte",AF,5,4,J14);
         //Egipto
         a=añadecelda(6,2);
         J15.add(a);
@@ -310,14 +310,14 @@ public class Mapa {
         J15.add(a);
         a=añadecelda(2,5);
         J15.add(a);
-        CreaPaises("Egipto",AF,6,4,J15);
+        CreaPaises("Egipto","Egipto",AF,6,4,J15);
         //Congo
         J16.clear();
         a=añadecelda(5,4);
         J16.add(a);
         a=añadecelda(6,5);
         J16.add(a);
-        CreaPaises("Congo",AF,5,5,J16);
+        CreaPaises("Congo","Congo",AF,5,5,J16);
         //AOriental
         a=añadecelda(6,4);
         J17.add(a);
@@ -325,17 +325,17 @@ public class Mapa {
         J17.add(a);
         a=añadecelda(6,6);
         J17.add(a);
-        CreaPaises("AOriental",AF,6,5,J17);
+        CreaPaises("África Oriental","AOriental",AF,6,5,J17);
         //Sudafrica
         a=añadecelda(6,5);
         J18.add(a);
         a=añadecelda(7,6);
         J18.add(a);
-        CreaPaises("Sudafrica",AF,6,6,J18);
+        CreaPaises("Sudafrica","Sudafrica",AF,6,6,J18);
         //Madagascar
         a=añadecelda(6,6);
         J19.add(a);
-        CreaPaises("Madagascar",AF,7,6,J19);
+        CreaPaises("Madagascar","Madagascar",AF,7,6,J19);
         //Siberia
         a=añadecelda(5,0);
         J20.add(a);
@@ -343,7 +343,7 @@ public class Mapa {
         J20.add(a);
         a=añadecelda(7,0);
         J20.add(a);
-        CreaPaises("Siberia",AS,6,0,J20);
+        CreaPaises("Siberia","Siberia",AS,6,0,J20);
         //Yakustsk
         a=añadecelda(6,0);
         J21.add(a);
@@ -351,7 +351,7 @@ public class Mapa {
         J21.add(a);
         a=añadecelda(7,1);
         J21.add(a);
-        CreaPaises("Yakustsk",AS,7,0,J21);
+        CreaPaises("Yakustsk","Yakustsk",AS,7,0,J21);
         //Kamtchatka
         a=añadecelda(0,0);
         J22.add(a);
@@ -359,7 +359,7 @@ public class Mapa {
         J22.add(a);
         a=añadecelda(7,0);
         J22.add(a);
-        CreaPaises("Kamtchatka",AS,8,0,J22);
+        CreaPaises("Kamtchatka","Kamtchatka",AS,8,0,J22);
         //Irkutsk
         a=añadecelda(8,0);
         J23.add(a);
@@ -367,7 +367,7 @@ public class Mapa {
         J23.add(a);
         a=añadecelda(8,2);
         J23.add(a);
-        CreaPaises("Irkutsk",AS,8,1,J23);
+        CreaPaises("Irkutsk","Irkutsk",AS,8,1,J23);
         //Mongolia
         a=añadecelda(8,1);
         J24.add(a);
@@ -377,11 +377,11 @@ public class Mapa {
         J24.add(a);
         a=añadecelda(9,2);
         J24.add(a);
-        CreaPaises("Mongolia",AS,8,2,J24);
+        CreaPaises("Mongolia","Mongolia",AS,8,2,J24);
         //Japon
         a=añadecelda(8,2);
         J25.add(a);
-        CreaPaises("Japon",AS,9,2,J25);
+        CreaPaises("Japon","Japon",AS,9,2,J25);
         //China
         a=añadecelda(8,2);
         J26.add(a);
@@ -389,7 +389,7 @@ public class Mapa {
         J26.add(a);
         a=añadecelda(7,3);
         J26.add(a);
-        CreaPaises("China",AS,8,3,J26);
+        CreaPaises("China","China",AS,8,3,J26);
         //URALES
         a=añadecelda(8,2);
         J27.add(a);
@@ -399,7 +399,7 @@ public class Mapa {
         J27.add(a);
         a=añadecelda(7,1);
         J27.add(a);
-        CreaPaises("Urales",AS,7,2,J27);
+        CreaPaises("Urales","Urales",AS,7,2,J27);
         //Afgan
         a=añadecelda(8,3);
         J28.add(a);
@@ -407,7 +407,7 @@ public class Mapa {
         J28.add(a);
         a=añadecelda(7,4);
         J28.add(a);
-        CreaPaises("Afgan",AS,7,3,J28);
+        CreaPaises("Afganistán","Afgan",AS,7,3,J28);
         //OMedio
         a=añadecelda(7,3);
         J29.add(a);
@@ -415,7 +415,7 @@ public class Mapa {
         J29.add(a);
         a=añadecelda(6,4);
         J29.add(a);
-        CreaPaises("OMedio",AS,7,4,J29);
+        CreaPaises("Oriente Medio","OMedio",AS,7,4,J29);
         //India
         a=añadecelda(7,4);
         J30.add(a);
@@ -423,13 +423,13 @@ public class Mapa {
         J30.add(a);
         a=añadecelda(8,3);
         J30.add(a);
-        CreaPaises("India",AS,8,4,J30);
+        CreaPaises("India","India",AS,8,4,J30);
         //SAsiático
         a=añadecelda(8,4);
         J31.add(a);
         a=añadecelda(9,6);
         J31.add(a);
-        CreaPaises("SAsiático",AS,9,4,J31);
+        CreaPaises("Sureste Asiático","SAsiático",AS,9,4,J31);
         //Indonesia
         a=añadecelda(9,4);
         J32.add(a);
@@ -437,25 +437,25 @@ public class Mapa {
         J32.add(a);
         a=añadecelda(10,6);
         J32.add(a);
-        CreaPaises("Indonesia",OC,9,6,J32);
+        CreaPaises("Indonesia","Indonesia",OC,9,6,J32);
         //NGuinea
         a=añadecelda(9,6);
         J33.add(a);
         a=añadecelda(10,7);
         J33.add(a);
-        CreaPaises("NGuinea",OC,10,6,J33);
+        CreaPaises("Nueva Guinea","NGuinea",OC,10,6,J33);
         //AusOccid
         a=añadecelda(9,6);
         J34.add(a);
         a=añadecelda(10,7);
         J34.add(a);
-        CreaPaises("AusOccid",OC,9,7,J34);
+        CreaPaises("Australia Occidental","AusOccid",OC,9,7,J34);
         //AusOrient
         a=añadecelda(9,7);
         J35.add(a);
         a=añadecelda(10,6);
         J35.add(a);
-        CreaPaises("AusOrient",OC,10,7,J35);
+        CreaPaises("Australia Oriental","AusOrient",OC,10,7,J35);
     }
    
     public void CreaOceano(){
