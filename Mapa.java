@@ -566,7 +566,7 @@ public class Mapa {
             }
             } 
     public void imprimeMapa(){
-        int i,j,m,b,c,d,e,f,g,h,l,n,o,p;
+        int i,j,m;
         String aux0=new String(),aux1=new String(),aux2=new String(),aux3=new String(),aux4=new String(),aux5=new String(),aux6=new String(),aux7=new String(),aux8=new String(),aux9=new String(),aux10=new String();
         Celda k;
             for (j = 0; j < 8; j++){
@@ -576,141 +576,42 @@ public class Mapa {
                 for(i=0;i<11;i++){
                     Point a=new Point(i,j);
                     k=mapa.get(a);
-                    if(k.getTipoCelda().equals("Oceano")){
-                        k.imprimeCeldaOc();
-                        switch (i) {
-                            case 0:
-                                aux0=String.format("  ");
-                                break;
-                            case 1:
-                                aux1=String.format("  ");
-                                break;
-                            case 2:
-                                aux2=String.format("  ");
-                                break;
-                            case 3:
-                                aux3=String.format("  ");
-                                break;
-                            case 4:
-                                aux4=String.format("  ");
-                                break;
-                            case 5:
-                                aux5=String.format("  ");
-                                break;
-                            case 6:
-                                aux6=String.format("  ");
-                                break;
-                            case 7:
-                                aux7=String.format("  ");
-                                break;
-                            case 8:
-                                aux8=String.format("  ");
-                                break;
-                            case 9:
-                                aux9=String.format("  ");
-                                break;
-                            case 10:
-                                aux10=String.format("  ");
-                                break;
-                            default:
-                                break;
-                        }
-                        
-                    }
-                    if(k.getTipoCelda().equals("Pais")){
-                        k.imprimeCelda();
-                        switch (i) {
-                            case 0:
-                                b=k.getPaisCelda().getEjercito().getnumero();
-                                aux0=String.format("%2d",b);
-                                break;
-                            case 1:
-                                c=k.getPaisCelda().getEjercito().getnumero();
-                                aux1=String.format("%2d",c);
-                                break;
-                            case 2:
-                                d=k.getPaisCelda().getEjercito().getnumero();
-                                aux2=String.format("%2d",d);
-                                break;
-                            case 3:
-                                e=k.getPaisCelda().getEjercito().getnumero();
-                                aux3=String.format("%2d",e);
-                                break;
-                            case 4:
-                                f=k.getPaisCelda().getEjercito().getnumero();
-                                aux4=String.format("%2d",f);
-                                break;
-                            case 5:
-                                g=k.getPaisCelda().getEjercito().getnumero();
-                                aux5=String.format("%2d",g);
-                                break;
-                            case 6:
-                                h=k.getPaisCelda().getEjercito().getnumero();
-                                aux6=String.format("%2d",h);
-                                break;
-                            case 7:
-                                l=k.getPaisCelda().getEjercito().getnumero();
-                                aux7=String.format("%2d",l);
-                                break;
-                            case 8:
-                                n=k.getPaisCelda().getEjercito().getnumero();
-                                aux8=String.format("%2d",n);
-                                break;
-                            case 9:
-                                o=k.getPaisCelda().getEjercito().getnumero();
-                                aux9=String.format("%2d",o);
-                                break;
-                            case 10:
-                                p=k.getPaisCelda().getEjercito().getnumero();
-                                aux10=String.format("%2d",p);
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    if(k.getTipoCelda().equals("Frontera Oceanica")){
-                        k.imprimeCeldafrontO();
-                        if(k.getclase()==2){
-                            m++;
-                        }
-                        switch (i) {
-                            case 0:
-                                aux0=String.format("  ");
-                                break;
-                            case 1:
-                                aux1=String.format("  ");
-                                break;
-                            case 2:
-                                aux2=String.format("  ");
-                                break;
-                            case 3:
-                                aux3=String.format("  ");
-                                break;
-                            case 4:
-                                aux4=String.format("  ");
-                                break;
-                            case 5:
-                                aux5=String.format("  ");
-                                break;
-                            case 6:
-                                aux6=String.format("  ");
-                                break;
-                            case 7:
-                                aux7=String.format("  ");
-                                break;
-                            case 8:
-                                aux8=String.format("  ");
-                                break;
-                            case 9:
-                                aux9=String.format("  ");
-                                break;
-                            case 10:
-                                aux10=String.format("  ");
-                                break;
-                            default:
-                                break;
-                        }
-                        
+                    switch (i) {
+                        case 0:
+                            aux0=k.imprimeejercito();
+                            break;
+                        case 1:
+                            aux1=k.imprimeejercito();
+                            break;
+                        case 2:
+                            aux2=k.imprimeejercito();
+                            break;
+                        case 3:
+                            aux3=k.imprimeejercito();
+                            break;
+                        case 4:
+                            aux4=k.imprimeejercito();
+                            break;
+                        case 5:
+                            aux5=k.imprimeejercito();
+                            break;
+                        case 6:
+                            aux6=k.imprimeejercito();
+                            break;
+                        case 7:
+                            aux7=k.imprimeejercito();
+                            break;
+                        case 8:
+                            aux8=k.imprimeejercito();
+                            break;
+                        case 9:
+                            aux9=k.imprimeejercito();
+                            break;
+                        case 10:
+                            aux10=k.imprimeejercito();
+                            break;
+                        default:
+                            break;
                     }
                     if(i==10){
                         System.out.print("\n");
