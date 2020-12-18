@@ -1,4 +1,8 @@
-//Angel
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package risk;
 
 import java.awt.Point;
@@ -19,29 +23,38 @@ import java.util.ArrayList;
  * @author Santiago Golpe
  */
 public class Pais {
+    private String abrev;
     private String Nombre;
     private String color;
-    public Jugador nombre_j;
+    private Jugador jugador;
     private Ejercito Ejercito;
     private Continente Continente;
-    private ArrayList<Point> Fronteras;
+    private final ArrayList<Point> Fronteras;
     private int vecesocupado;
     
-   public Pais(String nombre, Continente continente,ArrayList<Point> L ){
+   public Pais(String nombre,String abrev, Continente continente,ArrayList<Point> L ){
+      this.abrev=abrev;
       this.Nombre=nombre;
       this.Continente=continente;
       this.color=continente.getColorcontinente();
       this.Fronteras=L;
-      this.Ejercito=new Ejercito(this.nombre_j);
+      //this.Ejercito=new Ejercito(this.nombre_j);
    }
     public Continente getContinente(){
        return this.Continente; 
     }
     public String getNombrePais(){
+        return this.abrev;
+    }
+    public String getNombrelargoPais(){
         return this.Nombre;
     }
+    public void setJugador(Jugador jugador){
+        this.jugador=jugador;
+        this.Ejercito=new Ejercito(this.jugador);
+    }
     public Jugador getJugador(){
-        return this.nombre_j;
+        return this.jugador;
     }
     public String getColor(){
         return this.color;
@@ -52,79 +65,7 @@ public class Pais {
     public Ejercito getEjercito(){
         return this.Ejercito;
     }
-    public void describir_pais(){
-         System.out.println("nombre: "+nombre_j.getNombreJugador()+"abreviatura: "+this.Nombre+", continente: "+this.Continente.getnombre()+", frontera: ");
-        this.Fronteras.forEach((k) -> System.out.println(k+" "));
-        System.out.println("], jugador: "+ this.nombre_j.getNombreJugador()+", numeroEjercitos"+ this.Ejercito.getnumero()+", numeroVecesOcupado"+ this.vecesocupado);
-    }   		
-}
-
-//Santi
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Continentes;
-import java.util.ArrayList;
-import Jugadores.Jugador;
-import java.awt.Point;
-import risk.Ejercito;
-/**
- *
- * @author Santiago Golpe
- */
-public class Pais {
-    private String Nombre;
-    private String Abrev;
-    private String color;
-    public Jugador nombre_j;
-    private Ejercito Ejercito;
-    private Continente Continente;
-    private ArrayList<Point> Fronteras;
-    private int vecesocupado;
-    
-    public Pais(){
-        
-    }
-    public Pais(String nombre, String Abrev, Continente continente,ArrayList<Point> L ){
-      this.Nombre=nombre;
-      this.Abrev=Abrev;
-      this.Continente=continente;
-      this.color=continente.getColorcontinente();
-      this.Fronteras=L;
-      this.Ejercito=new Ejercito(this.nombre_j);
-      
-    }
-    public String getNombrePais(){
-        return this.Nombre;
-    }
-    public String getAbrevPais(){
-        return this.Abrev;
-    }
-    public Jugador getJugador(){
-        return this.nombre_j;
-    }
-    public String getColor(){
-        return this.color;
-    }
-    public ArrayList getFrontera(){
-        return this.Fronteras;
-    }
-    public Ejercito getEjercito(){
-        return this.Ejercito;
-    }
-    public Continente getContinente(){
-        return this.Continente;
-    }
-    public ArrayList<Point> getFronteras(){
-        return this.Fronteras;
-    }
-    public void describir_pais(){
-        System.out.println("nombre: "+nombre_j.getNombreJugador()+"abreviatura: "+this.Nombre+", continente: "+this.Continente.getnombre()+", frontera: ");
-        this.Fronteras.forEach((k) -> System.out.println(k+" "));
-        System.out.println("], jugador: "+ this.nombre_j.getNombreJugador()+", numeroEjercitos"+ this.Ejercito.getnumero()+", numeroVecesOcupado"+ this.vecesocupado);
-    }   	
-    //Creacion de paises
-  
+   public int getvecesocupado(){
+       return this.vecesocupado;
+    } 		
 }
