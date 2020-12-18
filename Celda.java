@@ -1,4 +1,4 @@
-/*
+*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -81,27 +81,28 @@ public class Celda {
         }
         //Imrimir celdas
         public void imprimeCelda(){
-        String aux=String.format("|"+"                 "+"%-9s"+"         |", pais.getAbrevPais());
-        if(pais.getColor().equals("red")){
-            aux=String.format("|"+"\u001B[41m"+"                 "+"%-9s"+"         "+"\u001B[0m"+"|", pais.getAbrevPais());
+            String aux=String.format("|"+"                 "+"%-9s"+"         |", pais.getNombrePais());
+            if(pais.getColor().equals("ROJO")){
+                aux=String.format("|"+"\u001B[41m"+"                 "+"%-9s"+"         "+"\u001B[0m"+"|", pais.getNombrePais());
+            }
+            if(pais.getColor().equals("CYAN")){
+                aux=String.format("|"+"\u001B[46m"+"                 "+"%-9s"+"         "+"\u001B[0m"+"|", pais.getNombrePais());
+            }
+            if(pais.getColor().equals("VERDE")){
+                aux=String.format("|"+"\u001B[42m"+"                 "+"%-9s"+"         "+"\u001B[0m"+"|", pais.getNombrePais());
+            }
+            if(pais.getColor().equals("VIOLETA")){
+                aux=String.format("|"+"\u001B[45m"+"                 "+"%-9s"+"         "+"\u001B[0m"+"|", pais.getNombrePais());
+            }
+            if(pais.getColor().equals("AZUL")){
+                aux=String.format("|"+"\u001B[44m"+"                 "+"%-9s"+"         "+"\u001B[0m"+"|", pais.getNombrePais());
+            }
+            if(pais.getColor().equals("AMARILLO")){
+                aux=String.format("|"+"\u001B[43m"+"                 "+"%-9s"+"         "+"\u001B[0m"+"|", pais.getNombrePais());
+            }
+            System.out.print(aux);
+            
         }
-        if(pais.getColor().equals("cyan")){
-            aux=String.format("|"+"\u001B[46m"+"                 "+"%-9s"+"         "+"\u001B[0m"+"|", pais.getAbrevPais());
-        }
-        if(pais.getColor().equals("green")){
-            aux=String.format("|"+"\u001B[42m"+"                 "+"%-9s"+"         "+"\u001B[0m"+"|", pais.getAbrevPais());
-        }
-        if(pais.getColor().equals("magenta")){
-            aux=String.format("|"+"\u001B[45m"+"                 "+"%-9s"+"         "+"\u001B[0m"+"|", pais.getAbrevPais());
-        }
-        if(pais.getColor().equals("blue")){
-            aux=String.format("|"+"\u001B[44m"+"                 "+"%-9s"+"         "+"\u001B[0m"+"|", pais.getAbrevPais());
-        }
-        if(pais.getColor().equals("yellow")){
-            aux=String.format("|"+"\u001B[43m"+"                 "+"%-9s"+"         "+"\u001B[0m"+"|", pais.getAbrevPais());
-        }
-        System.out.print(aux);
-    }
         public void imprimeCeldafrontO(){
             String aux=String.format("\u001B[31m"+"%s"+"\u001B[0m", Celda);
             
@@ -117,38 +118,13 @@ public class Celda {
             System.out.print("|                                   |");
              String aux=String.format("|                                   |");
         }
-        public String imprimeejercito(){
-        String aux;
-        if(this.tipo.equals("Pais")){
-            switch (pais.getJugador().getColor()) {
-                case "Rojo":case "rojo":
-                    aux=String.format("\u001B[31m"+"%-2d"+"\u001B[0m", pais.getEjercito().getnumero());
-                    break;
-                case "Cian":case "Cyan":case "cian":
-                    aux=String.format("\u001B[36m"+"%-2d"+"\u001B[0m", pais.getEjercito().getnumero());
-                    break;
-                case "Verde":
-                    aux=String.format("\u001B[32m"+"%-2d"+"\u001B[0m", pais.getEjercito().getnumero());
-                    break;
-                case "Violeta":
-                    aux=String.format("\u001B[35m"+"%-2d"+"\u001B[0m", pais.getEjercito().getnumero());
-                    break;
-                case "Azul":
-                    aux=String.format("\u001B[34m"+"%-2d"+"\u001B[0m", pais.getEjercito().getnumero());
-                    break;
-                case "Amarillo":
-                    aux=String.format("\u001B[33m"+"%-2d"+"\u001B[0m", pais.getEjercito().getnumero());
-                    break;
-                default:
-                    aux=String.format("%-2d", pais.getEjercito().getnumero());
-                    break;
+        public void imprimeejercito(){
+            if(this.tipo.equals("Pais")){
+                String aux=String.format("%d", this.pais.getEjercito().getnumero());
+                System.out.print(aux);
+
             }
-        }
-        else{
-            aux=" ";
-        }
         
-        return aux;
-    }
-        
+        }
 }
+
