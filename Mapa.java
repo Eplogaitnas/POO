@@ -1,15 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Mapa;
+package risk;
+
+
 import java.awt.Point;
 import java.util.HashMap;
-import java.awt.Color;
-import Continentes.Continente;
-import Continentes.Pais;
 import java.util.ArrayList;
+import risk.Excepcion.ExcepcionGeo;
 
 
 /**
@@ -20,18 +15,21 @@ import java.util.ArrayList;
 
 public class Mapa {
     private HashMap<Point, Celda> mapa;
-    
+    private HashMap<String,Pais> Paises;
     
     
     
     public Mapa() {
         this.mapa = new HashMap<>();
+        this.Paises= new HashMap<>();
     }
     
     public HashMap<Point, Celda> getMapa() {
         return mapa;
     }
-    
+    public HashMap<String,Pais>getPaises(){
+        return this.Paises;
+    }
     public Celda GetPais(String Nombre){
         int i,j;
         Point k;
@@ -64,6 +62,7 @@ public class Mapa {
     public void CreaPaises(String Nombre, String Abrev,Continente cont,int x, int y, ArrayList<Point> L){
         Pais Pais=new Pais(Nombre,Abrev,cont,L);
         creaCeldaPais(Pais,x,y);
+        this.Paises.put(Abrev, Pais);
     }
    public void AsignaFrontO(String Fr,int x, int y,int clase){
        Celda c=new Celda(Fr,clase);
@@ -123,12 +122,12 @@ public class Mapa {
         Point a;
         
         
-        Continente NA=new Continente("America del Norte","magenta");
-        Continente SA=new Continente("America del Sur","red");
-        Continente EU=new Continente("Europa","yellow");
-        Continente AF=new Continente("África","green");
-        Continente AS=new Continente("Asia","cyan");
-        Continente OC=new Continente("Oceania","blue");
+        Continente NA=new Continente("AméricaNorte","America del Norte","VIOLETA");
+        Continente SA=new Continente("AméricaSur","AmericadelSur","ROJO");
+        Continente EU=new Continente("Europa","Europa","AMARILLO");
+        Continente AF=new Continente("África","África","VERDE");
+        Continente AS=new Continente("Asia","Asia","CYAN");
+        Continente OC=new Continente("Oceanía","Oceanía","AZUL");
         
         //ALASKA
         a=añadecelda(1,0);
@@ -183,7 +182,7 @@ public class Mapa {
         GRO.add(a);
         a=añadecelda(4,0);
         GRO.add(a);
-        CreaPaises("Groenlandia","Groen",NA,2,0,GRO);
+        CreaPaises("Groenlandia","Groenlan",NA,2,0,GRO);
         
         //QUEBEC
         a=añadecelda(2,0);
@@ -206,7 +205,7 @@ public class Mapa {
         J2.add(a);
         a=añadecelda(1,4);
         J2.add(a);
-        CreaPaises("América Central ","AmeCentra",NA,1,3,J2);
+        CreaPaises("América Central","AmeCentral",NA,1,3,J2);
         
         //ARGENTINA
         a=añadecelda(1,5);
@@ -331,11 +330,11 @@ public class Mapa {
         J18.add(a);
         a=añadecelda(7,6);
         J18.add(a);
-        CreaPaises("Sudafrica","Sudafrica",AF,6,6,J18);
+        CreaPaises("Sudáfrica","Sudáfrica",AF,6,6,J18);
         //Madagascar
         a=añadecelda(6,6);
         J19.add(a);
-        CreaPaises("Madagascar","Madagascar",AF,7,6,J19);
+        CreaPaises("Madagascar","Madagasca",AF,7,6,J19);
         //Siberia
         a=añadecelda(5,0);
         J20.add(a);
@@ -359,7 +358,7 @@ public class Mapa {
         J22.add(a);
         a=añadecelda(7,0);
         J22.add(a);
-        CreaPaises("Kamtchatka","Kamtchatka",AS,8,0,J22);
+        CreaPaises("Kamchatka","Kamchatka",AS,8,0,J22);
         //Irkutsk
         a=añadecelda(8,0);
         J23.add(a);
@@ -381,7 +380,7 @@ public class Mapa {
         //Japon
         a=añadecelda(8,2);
         J25.add(a);
-        CreaPaises("Japon","Japon",AS,9,2,J25);
+        CreaPaises("Japón","Japón",AS,9,2,J25);
         //China
         a=añadecelda(8,2);
         J26.add(a);
@@ -514,8 +513,13 @@ public class Mapa {
     }
    
     
-    
-       public void imprimeMapa1(){
+        public void imprimeMapa(){
+            if(Paises.get(Paises.keySet().toArray()[0]).getEjercito()==null){
+                imprimeMapa_sinEjercitos();
+            }
+            else imprimeMapa_Ejercitos();
+        }
+       public void imprimeMapa_sinEjercitos(){
         int i,j,m;
         Celda k;
             for (j = 0; j < 8; j++){
@@ -565,8 +569,8 @@ public class Mapa {
                 
             }
             } 
-    public void imprimeMapa(){
-        int i,j,m;
+    public void imprimeMapa_Ejercitos(){
+        int i,j,m,b,c,d,e,f,g,h,l,n,o,p;
         String aux0=new String(),aux1=new String(),aux2=new String(),aux3=new String(),aux4=new String(),aux5=new String(),aux6=new String(),aux7=new String(),aux8=new String(),aux9=new String(),aux10=new String();
         Celda k;
             for (j = 0; j < 8; j++){
@@ -576,42 +580,141 @@ public class Mapa {
                 for(i=0;i<11;i++){
                     Point a=new Point(i,j);
                     k=mapa.get(a);
-                    switch (i) {
-                        case 0:
-                            aux0=k.imprimeejercito();
-                            break;
-                        case 1:
-                            aux1=k.imprimeejercito();
-                            break;
-                        case 2:
-                            aux2=k.imprimeejercito();
-                            break;
-                        case 3:
-                            aux3=k.imprimeejercito();
-                            break;
-                        case 4:
-                            aux4=k.imprimeejercito();
-                            break;
-                        case 5:
-                            aux5=k.imprimeejercito();
-                            break;
-                        case 6:
-                            aux6=k.imprimeejercito();
-                            break;
-                        case 7:
-                            aux7=k.imprimeejercito();
-                            break;
-                        case 8:
-                            aux8=k.imprimeejercito();
-                            break;
-                        case 9:
-                            aux9=k.imprimeejercito();
-                            break;
-                        case 10:
-                            aux10=k.imprimeejercito();
-                            break;
-                        default:
-                            break;
+                    if(k.getTipoCelda().equals("Oceano")){
+                        k.imprimeCeldaOc();
+                        switch (i) {
+                            case 0:
+                                aux0=String.format("  ");
+                                break;
+                            case 1:
+                                aux1=String.format("  ");
+                                break;
+                            case 2:
+                                aux2=String.format("  ");
+                                break;
+                            case 3:
+                                aux3=String.format("  ");
+                                break;
+                            case 4:
+                                aux4=String.format("  ");
+                                break;
+                            case 5:
+                                aux5=String.format("  ");
+                                break;
+                            case 6:
+                                aux6=String.format("  ");
+                                break;
+                            case 7:
+                                aux7=String.format("  ");
+                                break;
+                            case 8:
+                                aux8=String.format("  ");
+                                break;
+                            case 9:
+                                aux9=String.format("  ");
+                                break;
+                            case 10:
+                                aux10=String.format("  ");
+                                break;
+                            default:
+                                break;
+                        }
+                        
+                    }
+                    if(k.getTipoCelda().equals("Pais")){
+                        k.imprimeCelda();
+                        switch (i) {
+                            case 0:
+                                b=k.getPaisCelda().getEjercito().getnumero();
+                                aux0=String.format("%2d",b);
+                                break;
+                            case 1:
+                                c=k.getPaisCelda().getEjercito().getnumero();
+                                aux1=String.format("%2d",c);
+                                break;
+                            case 2:
+                                d=k.getPaisCelda().getEjercito().getnumero();
+                                aux2=String.format("%2d",d);
+                                break;
+                            case 3:
+                                e=k.getPaisCelda().getEjercito().getnumero();
+                                aux3=String.format("%2d",e);
+                                break;
+                            case 4:
+                                f=k.getPaisCelda().getEjercito().getnumero();
+                                aux4=String.format("%2d",f);
+                                break;
+                            case 5:
+                                g=k.getPaisCelda().getEjercito().getnumero();
+                                aux5=String.format("%2d",g);
+                                break;
+                            case 6:
+                                h=k.getPaisCelda().getEjercito().getnumero();
+                                aux6=String.format("%2d",h);
+                                break;
+                            case 7:
+                                l=k.getPaisCelda().getEjercito().getnumero();
+                                aux7=String.format("%2d",l);
+                                break;
+                            case 8:
+                                n=k.getPaisCelda().getEjercito().getnumero();
+                                aux8=String.format("%2d",n);
+                                break;
+                            case 9:
+                                o=k.getPaisCelda().getEjercito().getnumero();
+                                aux9=String.format("%2d",o);
+                                break;
+                            case 10:
+                                p=k.getPaisCelda().getEjercito().getnumero();
+                                aux10=String.format("%2d",p);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    if(k.getTipoCelda().equals("Frontera Oceanica")){
+                        k.imprimeCeldafrontO();
+                        if(k.getclase()==2){
+                            m++;
+                        }
+                        switch (i) {
+                            case 0:
+                                aux0=String.format("  ");
+                                break;
+                            case 1:
+                                aux1=String.format("  ");
+                                break;
+                            case 2:
+                                aux2=String.format("  ");
+                                break;
+                            case 3:
+                                aux3=String.format("  ");
+                                break;
+                            case 4:
+                                aux4=String.format("  ");
+                                break;
+                            case 5:
+                                aux5=String.format("  ");
+                                break;
+                            case 6:
+                                aux6=String.format("  ");
+                                break;
+                            case 7:
+                                aux7=String.format("  ");
+                                break;
+                            case 8:
+                                aux8=String.format("  ");
+                                break;
+                            case 9:
+                                aux9=String.format("  ");
+                                break;
+                            case 10:
+                                aux10=String.format("  ");
+                                break;
+                            default:
+                                break;
+                        }
+                        
                     }
                     if(i==10){
                         System.out.print("\n");
@@ -652,7 +755,7 @@ public class Mapa {
                     if(k.getTipoCelda().equals("Pais")){
                         aux2=String.format("Fronteras de %s :", k.getPaisCelda().getNombrePais());
                         System.out.print(aux2);
-                        J=k.getPaisCelda().getFrontera();
+                        J=k.getPaisCelda().getFronteras();
                         for(m=0;m<J.size();m++){
                             n=mapa.get(J.get(m));
                             aux=String.format(" %s, ", n.getPaisCelda().getNombrePais());
@@ -666,94 +769,58 @@ public class Mapa {
                 }
             }
         }
-        public void obtenerfrontera(String Pais){
-            int i,j,m;
-            Celda k,n;
-            Point p;
-            String aux,aux2;
-            ArrayList<Point> J;
-            for(i=0;i<11;i++){
-                for(j=0;j<8;j++){
-                    p=new Point(i,j);
-                    k=mapa.get(p);
-                    if(k.getTipoCelda().equals("Pais")){
-                        if(k.getPaisCelda().getNombrePais().equals(Pais)){
-                            aux2=String.format("Fronteras de %s :", k.getPaisCelda().getNombrePais());
-                            System.out.print(aux2);
-                            J=k.getPaisCelda().getFronteras();
-                            for(m=0;m<J.size();m++){
-                                n=mapa.get(J.get(m));
-                                aux=String.format(" %s, ", n.getPaisCelda().getNombrePais());
-                                System.out.print(aux);
-                            }
-                            System.out.print("\n");
-                        }
-                    }
-                }
+        public void obtenerfrontera(String Pais) throws ExcepcionGeo{
+            int i=0;
+            Pais country;
+            if((country=this.Paises.get(Pais))== null){
+                throw new ExcepcionGeo("\nCodigo de error: 109, Descripcion: \"El país no existe\"");
             }
+            System.out.print("fronteras: [ ");
+            for (Point value : country.getFronteras()) {
+                if(i==1)System.out.print(", ");
+                System.out.print("\""+this.mapa.get(value).getPaisCelda().getNombrelargoPais()+"\"");
+                i=1;
+            }System.out.print("]");
+            
+           
         }
-        public void obtenercontinente(String Pais){
-            int i,j;
-            Celda k;
-            Point p;
-            String aux,aux2;
-            for(i=0;i<11;i++){
-                for(j=0;j<8;j++){
-                    p=new Point(i,j);
-                    k=mapa.get(p);
-                    if(k.getTipoCelda().equals("Pais")){
-                        if(k.getPaisCelda().getNombrePais().equals(Pais)){
-                            aux2=String.format("Continente de %s :", k.getPaisCelda().getNombrePais());
-                            System.out.print(aux2);
-                            aux=String.format("%s", k.getPaisCelda().getContinente().getnombre());
-                            System.out.print(aux);
-                            System.out.print("\n");
-                        }
-                    }
-                }
+        public void obtenercontinente(String Pais) throws ExcepcionGeo{
+            Pais country;
+            if((country=Paises.get(Pais))== null){
+                throw new ExcepcionGeo("\nCodigo de error: 109, Descripcion: \"El país no existe\"");
             }
+            else System.out.println("continente: "+country.getContinente().getnombre());
         }
-        public void obtenercolor(String Pais){
-            int i,j;
-            Celda k;
-            Point p;
-            String aux,aux2;
-            for(i=0;i<11;i++){
-                for(j=0;j<8;j++){
-                    p=new Point(i,j);
-                    k=mapa.get(p);
-                    if(k.getTipoCelda().equals("Pais")){
-                        if(k.getPaisCelda().getNombrePais().equals(Pais)){
-                            aux2=String.format("Color de %s :", k.getPaisCelda().getNombrePais());
-                            System.out.print(aux2);
-                            aux=String.format("%s", k.getPaisCelda().getColor());
-                            System.out.print(aux);
-                            System.out.print("\n");
-                        }
-                    }
-                }
+        public void obtenercolor(String Pais) throws ExcepcionGeo{
+            String color;
+            color=this.Paises.get(Pais).getColor();
+            switch(color){
+                case "AMARILLO": break;
+                case "AZUL":break;
+                case "CYAN":break;
+                case "ROJO":break;
+                case "VERDE":break;
+                case "VIOLETA":break;
+                default: throw new ExcepcionGeo("\nCodigo de error: 100, Descripcion: \"Color no permitido\"");
             }
         }
         public void obtenerpaises(String Continente){
-            int i,j;
-            Celda k;
-            Point p;
-            String aux,aux2;
-            aux2=String.format("Paises de %s :", Continente);
-            System.out.print(aux2);
-            for(i=0;i<11;i++){
-                for(j=0;j<8;j++){
-                    p=new Point(i,j);
-                    k=mapa.get(p);
-                    if(k.getTipoCelda().equals("Pais")){
-                        if(k.getPaisCelda().getContinente().getnombre().equals(Continente)){
-                            aux=String.format("%s, ", k.getPaisCelda().getNombrePais());
-                            System.out.print(aux);
-                        }
-                    }
+            int i=0;
+            String aux1,aux2[]=null;
+            for (Pais value: Paises.values()){
+                if(value.getContinente().getnombre().equals(Continente)){
+                    aux2[i]="\""+value.getNombrelargoPais()+"\"";
+                    i++;
                 }
             }
-            System.out.print("\n");
+            aux1=String.join(", ",aux2);
+            System.out.println("paises: [ "+aux1+"]");
         }
+        public void describir_pais(String pais) throws ExcepcionGeo{
+        Pais country;
+        country=this.Paises.get(pais);
+        System.out.println("nombre: "+country.getNombrelargoPais()+",\nabreviatura: "+country.getNombrePais()+",\ncontinente: "+country.getContinente().getnombre()+",\n");
+        this.obtenerfrontera(pais);
+        System.out.println(", jugador: "+ country.getJugador().getNombreJugador()+", numeroEjercitos"+ country.getEjercito().getnumero()+", numeroVecesOcupado"+ country.getvecesocupado());
+    }  
 }
-   
