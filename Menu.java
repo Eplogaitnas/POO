@@ -1,5 +1,4 @@
 package risk;
-
 import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,15 +7,15 @@ import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import risk.Carta.*;
+import risk.Excepcion.*;
 /**
  *
  * @author Manuel Lama
  */
-public class Menu {
+public final class Menu {
     // En esta clase se deberían de definir los atributos a los que será 
     // necesario acceder durante la ejecución del programa como, por ejemplo,
     // el mapa o los jugadores
@@ -25,15 +24,18 @@ public class Menu {
      * 
      */
     int verificador;
-    String ganador;
-    public HashMap< String, Mision> Misiones;
-    public HashMap<String, Jugador> Jugadores = new HashMap<>();
-    public Jugador actual;
+    private Mapa mapa;
+    private HashMap< String, Mision> Misiones=new HashMap<>();
+    private HashMap<String, Jugador> Jugadores = new HashMap<>();
+    private Jugador actual;
+    private int n_cartas;
     public Menu() {
+        this.n_cartas = 0;
         // Inicialización de algunos atributos
         Scanner aux=new Scanner(System.in);
         // Iniciar juego
         String orden= null;
+        int asiginicio=0;
         BufferedReader bufferLector= null;
         try {
             File fichero=  new File("comandos.csv");
@@ -65,52 +67,87 @@ public class Menu {
                 //    ver pais <nombre_pais>
                 switch(comando) {
                     case "crear":
-                        if(partes.length==2) {
+                    switch (partes.length) {
+                        case 2:
                             if(partes[1].equals("mapa")) {
                                 // crearMapa es un método de la clase Menú desde el que se puede invocar
                                 // a otros métodos de las clases que contienen los atributos y los métodos
                                 // necesarios para realizar esa invocación 
                                 crearMapa();
+                                
                             } else {
-                                System.out.println("\nComando incorrecto.");
-                            }
-                            
-                            
-                        System.out.println(partes.length);
-                        }if(partes.length==3) {
+                                throw new ExcepcionComando(" Codigo de error: 101, Comando incorrecto");
+                            }   break;
+                        case 3:
                             if(partes[1].equals("jugadores")) { 
                                 crearJugador(new File(partes[2]));
+                                //FALTA PRINTF DE CADA JUGADOR
                             } else {
                                 crearJugador(partes[1], partes[2]);
                             }
                             actual=Jugadores.get(Jugadores.keySet().toArray()[0]);
-                        } else {
-                            System.out.println("\nComando incorrecto.");
-                        }
+                            break;
+                        default:
+                            throw new ExcepcionComando(" Codigo de error: 101, Comando incorrecto");
+                    }
                         break;
+
                     case "asignar":
-                        if(partes.length!=3) {
-                            System.out.println("\nComando incorrecto.");
-                        } else if(partes[1].equals("paises")) {
-                            // asignarPaises es un método de la clase Menu que recibe como entrada el fichero
-                            // en el que se encuentra la asignación de países a jugadores. Dentro de este
-                            // método se invocará a otros métodos de las clases que contienen los atributos
-                            // y los métodos necesarios para realizar esa invocación
-                            asignarPaises(new File(partes[2]));
-                        } else {
-                            asignarPaises(partes[1], partes[2]);
+                        if(partes.length==3) {
+                            switch (partes[1]) {
+                                case "paises":
+                                    // asignarPaises es un método de la clase Menu que recibe como entrada el fichero
+                                    // en el que se encuentra la asignación de países a jugadores. Dentro de este
+                                    // método se invocará a otros métodos de las clases que contienen los atributos
+                                    // y los métodos necesarios para realizar esa invocación
+                                    asignarPaises(new File(partes[2]));
+                                    break;
+                                case "misiones":
+                                    asignar_misiones(new File(partes[2]));
+                                    break;
+                                case "carta":
+                                    asignar_carta(partes[2],n_cartas);
+                                    break;
+                                default:
+                                     throw new ExcepcionComando(" Codigo de error: 101, Comando incorrecto");
+                            }
+                        }
+                        else if(partes.length==4){
+                            switch (partes[1]){
+                             case "mision":
+                                    asignar_mision (partes[2],partes[3]);
+                             case "pais":
+                                    asignarPaises(partes[2], partes[3]);
+                            }
                         }
                         break;
                     case "cambiar":
-                        if(partes.length==5){
-                            System.out.println("\nComando incorrecto.");
-                            //actual.cambiar_cartas(partes[2],partes[3],partes[4]);
-                        }
-                        else if(partes.length==3){
+                    switch (partes.length) {
+                        case 5:
+                            actual.cambiar_cartas(partes[2],partes[3],partes[4]);
+                            break;
+                        case 3:                
                             actual.cambiar_cartas_todas();
-                        }
+                            break;
+                        default:
+                            throw new ExcepcionComando(" Codigo de error: 101, Comando incorrecto");
+                    }
                         break;
+
                     case "repartir":
+                        if(partes[1].equals("ejercitos")){
+                            if(asiginicio==0){
+                                int tam=Jugadores.size();
+                                this.Jugadores.forEach((k,value) ->   value.getEjercitos().aumentarejercitos(35-(5*(tam-3))));
+                                asiginicio++;
+                            }
+                            if(partes.length==4){
+            
+                                repartir_ejercitos(Integer.parseInt(partes[2]),partes[3]);
+                            }
+                            //if(partes.length==2)
+                        }
+                        else throw new ExcepcionComando(" Codigo de error: 101, Comando incorrecto");
                         break;
                     case "describir":
                         if(partes.length==3){
@@ -118,26 +155,33 @@ public class Menu {
                                 case "jugador":
                                     describir_jugador(partes[2]);
                                     break;
-                                case "pais": 
+                                case "pais":
                                     describir_pais(partes[2]);
                                     break;
                                 case "continente":
                                     describir_continente(partes[2]);
                                     break;
+                                default:throw new ExcepcionComando(" Codigo de error: 101, Comando incorrecto");
+                        
                             }
                         }
                         else{
-                            System.out.println("\nComando incorrecto.");
+                           throw new ExcepcionComando(" Codigo de error: 101, Comando incorrecto");
                         }
                         break;
                     case "atacar":
-                        if(partes.length==5){
+                    switch (partes.length) {
+                        case 5:
                             atacar(partes[1],partes[2],partes[3],partes[4]);
-                        }
-                        else if(partes.length==3){
+                            break;
+                        case 3:
                             atacar(partes[1],partes[2]);
-                        }
+                            break;
+                        default:
+                            throw new ExcepcionComando(" Codigo de error: 101, Comando incorrecto");
+                    }
                         break;
+
                     case "acabar":
                         verificador=0;
                         for (Jugador value : Jugadores.values()) {
@@ -147,21 +191,27 @@ public class Menu {
                            else if(verificador==1){
                                actual=value;
                                verificador=0;
+                               break;
                            }
                        }
+                        System.out.println("nombre: \""+actual.getNombreJugador()+"\", numeroEjercitosRearmar: "+actual.getEjercitos().getnumero());
                         if(verificador==1){
-                            actual=Jugadores.get(Jugadores.keySet().toArray()[0]);
+                            actual = Jugadores.get(Jugadores.keySet().toArray()[0]);
                         }
                         break;
                     case "jugador":
                         actual.jugador();
                         break;
-                    default:
-                        System.out.println("\nComando incorrecto.");
+                    case "ver":
+                        mapa.imprimeMapa();
                         break;
+                    case "rearmar":
+                        rearmar(partes[1], Integer.parseInt(partes[2]),partes[3]);
+                   default:
+                        throw new ExcepcionComando(" Codigo de error: 101, Comando incorrecto");
                 } 
             }
-        } catch(Exception excepcion) {
+        } catch(IOException | NumberFormatException | ExcepcionComando | ExcepcionGeo excepcion) {
             excepcion.printStackTrace();
         }
         
@@ -169,11 +219,10 @@ public class Menu {
 
     /**
      * 
-     * @param file 
      */
     
 
-    Mapa mapa;
+    
     public void crearMapa() {
         // Código necesario para crear el mapa
         mapa=new Mapa();
@@ -201,13 +250,22 @@ public class Menu {
      * @param file 
      */
     
-    public void crearJugador(String nombre, String color){
+    public void crearJugador(String nombre, String color) throws ExcepcionGeo{
         Jugador aux;
+        switch(color){
+            case "AMARILLO": break;
+            case "AZUL":break;
+            case "CYAN":break;
+            case "ROJO":break;
+            case "VERDE":break;
+            case "VIOLETA":break;
+            default: throw new ExcepcionGeo("\nCodigo de error: 100, Descripcion: \"Color no permitido\"");
+        }
         aux= new Jugador(nombre,color);
         Jugadores.put(nombre, aux);
         System.out.println("Jugador "+aux.getNombreJugador()+"añadido");
     }
-    public void crearJugador(File file) {
+    public void crearJugador(File file) throws ExcepcionGeo {
         // Código necesario para crear a los jugadores del RISK
         BufferedReader br = null;
         String line = "";
@@ -244,7 +302,10 @@ public class Menu {
         int a=0;
         if (identificacionmision.charAt(0)!='M'){System.out.println("identificacion no valida");}
         else{
-            if(Misiones.get(identificacionmision)==null){
+            if(Misiones.containsKey(identificacionmision)){
+               System.out.println("Mision ya asignada"); 
+            }
+            else{   
                 if(identificacionmision.charAt(1)=='4'){
                     switch(identificacionmision.charAt(2)){
                         case 1: colorj="AMARILLO"; break;
@@ -264,16 +325,13 @@ public class Menu {
                     }
                 }
                 if(a==0){aux = new Mision(identificacionmision); }
-                else {aux = new Mision("M1");}
+                else aux = new Mision("M1");
                 Jugador player = Jugadores.get(nombre);
                 if(player!=null){
                     Misiones.put(identificacionmision, aux);
                     player.setmision(aux);
 
                 }
-            }
-            else{
-                System.out.println("Mision ya asignada");
             }
         }
     }
@@ -303,45 +361,14 @@ public class Menu {
         }
     }
     public void asignarPaises(String jugador, String pais) {
-        String tipo, id;
-        Carta c;
         Pais country;
         Jugador player = Jugadores.get(jugador);
-        for (Celda value : mapa.getMapa().values()) {
-            tipo=value.getTipoCelda();
-            if(tipo.equals("Pais")){
-                country=value.getPaisCelda();
-                if(country.getNombrePais().equals(pais)){
-                    player.añadirPais(country);
-                    switch((int)(Math.random()*6+1)){
-                        case 1:
-                            id= String.join("&","Antiaerea",pais);
-                              break;
-                        case 2:
-                            id= String.join("&","DeCaballo",pais);
-                            break;
-                        case 3:
-                            id= String.join("&","DeCamello",pais);
-                            break;
-                        case 4:
-                            id= String.join("&","DeCampanha",pais);
-                            break;
-                        case 5:
-                            id= String.join("&","Fusilero",pais);
-                            break;
-                        case 6:
-                            id= String.join("&","Granadero",pais);
-                            break;  
-                        default:
-                            System.out.println("fallo al crear carta");
-                            return;
-                    }
-                    player.crear_carta(id);
-                    return;
-                }       
-            }
-        }
-        System.out.println("Nombre de pais no valido");
+        if(mapa.getPaises().containsKey(pais)){
+            country=mapa.getPaises().get(pais);
+            country.setJugador(player);
+            player.añadirPais(country);
+        }            
+        else System.out.println("Nombre de pais no valido");
     }
     public void asignarPaises(File file){
             // Código necesario para crear a los jugadores del RISK
@@ -372,10 +399,7 @@ public class Menu {
             }
         }
     }
-    public void repartir_ejercitos(int numero, String nombrepais){
-        
-    }
-    public void acabar_turno(){
+    /*public void acabar_turno(){
         //verifico si alguna mision ha sido cumplida.
         String identificador;
         identificador=actual.getmision().getcode();
@@ -386,7 +410,7 @@ public class Menu {
                 }
                 break;
             case '2':
-                if(actual.getPaises().size()>=18/*&& min 2 ejercitos*/ ){
+                if(actual.getPaises().size()>=18/*&& min 2 ejercitos ){
                     ganador=actual.getNombreJugador();
                     }
                 break;
@@ -461,8 +485,22 @@ public class Menu {
                 }
                 break;
         }
+    }*/
+    public void repartir_ejercitos(int numero, String pais){
+        Pais country;
+        if (actual.getEjercitos().getnumero()<numero){
+            System.out.println("numero no valido: mayor al numero de ejercitos disponibles");
+            return;
+        }
+        if((country=actual.getPaises().get(pais))==null){
+             System.out.println("El pais seleccionado no pertencece al jugador actual");
+             return;
+        }
+        country.getEjercito().aumentarejercitos(numero);
+        actual.getEjercitos().disminuirjercitos(numero);
+        
     }
-     public void describir_jugador(String jugador){
+    public void describir_jugador(String jugador){
         Jugador aux = Jugadores.get(jugador);
         if(aux.equals(actual)){
             aux.jugador();
@@ -477,40 +515,33 @@ public class Menu {
             System.out.println("], numero ejercitos rearmar:"+ aux.getEjercitos().getnumero());
         }   		
     }
-     public void describir_pais(String nombre_pais){
-        String tipo;
+    public void describir_pais(String nombre_pais) throws ExcepcionGeo{
         Pais country;
-        for (Celda value : mapa.getMapa().values()) {
-            tipo=value.getTipoCelda();
-            if(tipo.equals("Pais")){
-                country=value.getPaisCelda();
-                if(country.getNombrePais().equals(nombre_pais)){
-                    country.describir_pais();
-                    return;
-                }       
-            }
+        if(mapa.getPaises().containsKey(nombre_pais)){
+            country=mapa.getPaises().get(nombre_pais);
+            if(country.getNombrePais().equals(nombre_pais)){
+                mapa.describir_pais(nombre_pais);
+                return;
+            }       
         }
         System.out.println("Nombre de pais no valido");
     }
-     public void describir_continente(String nombre_continente){
+    public void describir_continente(String nombre_continente){
         String tipo;
         Pais country;
         Continente Continente;
-        for (Celda value : mapa.getMapa().values()) {
-            tipo=value.getTipoCelda();
-            if(tipo.equals("Pais")){
-                Continente=value.getPaisCelda().getContinente();
-                if(Continente.getnombre().equals(nombre_continente)){
-                    Continente.describir_continente();
-                    return;
-                }       
+        for (Pais value : mapa.getPaises().values()) {
+            if(value.getContinente().getabrev().equals(nombre_continente)){
+                Continente=value.getContinente();
+                Continente.describir_continente();
+                return;
             }
         }
-        System.out.println("Nombre de pais no valido");
+        System.out.println("Nombre de continente no valido");
     }
-     public void atacar(String pais1,String dados1, String pais2, String dados2){
-         String valores1[], valores2[];
-        ArrayList<Integer> dados_ataque = null,dados_defensa = null;
+    public void atacar(String pais1,String dados1, String pais2, String dados2){
+        String valores1[], valores2[];
+        ArrayList<Integer> dados_ataque=  new ArrayList<>(),dados_defensa = new ArrayList<>();
         valores1= dados2.split("x");
         valores2= dados1.split("x");
         for(int i=0;i<valores1.length;i++){
@@ -528,19 +559,15 @@ public class Menu {
              System.out.println("El pais seleccionado no pertencece al jugador actual");
              return;
          }
-          for (Celda value : mapa.getMapa().values()) {
-            tipo=value.getTipoCelda();
-            if(tipo.equals("Pais")){
-               if(value.getPaisCelda().getNombrePais().equals(pais2)){
-                    if(actual.getPaises().get(pais2)== null){
-                         country2=value.getPaisCelda();
-                    }
-                    else{
-                        System.out.println("El jugador esta atacando a un pais propio ");
-                    }
-                }       
+        if(mapa.getPaises().containsKey(pais2)){
+            if(actual.getPaises().get(pais2)== null){
+                 country2=mapa.getPaises().get(pais2);
             }
-         }
+            else{
+                System.out.println("El jugador esta atacando a un pais propio ");
+            }
+        }       
+            
          if(country2==null){
              System.out.println("pais no encontrado");
              return;
@@ -575,28 +602,22 @@ public class Menu {
              if(i==dados_defensa.size())break;
          }  
      }
-      public void atacar(String pais1, String pais2){
+    public void atacar(String pais1, String pais2){
          Dados d1,d2;
-         String tipo;
          Pais country1, country2=null;
          verificador=0;
          if((country1=actual.getPaises().get(pais1))==null){
              System.out.println("El pais seleccionado no pertencece al jugador actual");
              return;
          }
-          for (Celda value : mapa.getMapa().values()) {
-            tipo=value.getTipoCelda();
-            if(tipo.equals("Pais")){
-               if(value.getPaisCelda().getNombrePais().equals(pais2)){
-                    if(actual.getPaises().get(pais2)== null){
-                         country2=value.getPaisCelda();
-                    }
-                    else{
-                        System.out.println("El jugador esta atacando a un pais propio ");
-                    }
-                }       
+          if(mapa.getPaises().containsKey(pais2)){
+            if(actual.getPaises().get(pais2)== null){
+                 country2=mapa.getPaises().get(pais2);
             }
-         }
+            else{
+                System.out.println("El jugador esta atacando a un pais propio ");
+            }
+        }    
          if(country2==null){
              System.out.println("pais no encontrado");
              return;
@@ -627,11 +648,84 @@ public class Menu {
              if(country2.getEjercito().getnumero()==0){
                country2.getJugador().getPaises().remove(country2);
                actual.añadirPais(country2);
+               n_cartas++;
                break;
              }
              i++;
              if(i==d2.gettiradas().size())break;
          }  
      }
-    
-}
+    public void rearmar(String pais1, int num,String pais2){
+        Pais country1, country2; 
+        verificador=0;
+        if((country1=actual.getPaises().get(pais1))==null){
+             System.out.println("El pais seleccionado no pertencece al jugador actual");
+             return;
+        }
+        if((country2=actual.getPaises().get(pais2))==null){
+             System.out.println("El pais seleccionado no pertencece al jugador actual");
+             return;
+        }
+        for (Point value : country1.getFronteras()) {
+            if(mapa.getMapa().get(value).getPaisCelda().equals(country2)){
+                verificador=1;
+                break;
+            }
+                
+         }
+         if(verificador==0){
+             System.out.println("Los paises no son fronterizos");
+             return;
+         }
+        if(country1.getEjercito().getnumero()<num+1){
+            System.out.println("pais no tiene suficientes ejercitos");
+        }
+        else{
+            country1.getEjercito().disminuirjercitos(num);
+            country2.getEjercito().aumentarejercitos(num);
+        }
+    }
+    public void asignar_carta(String id, int numero){
+        Carta c;
+        String tipo;
+        tipo=id.split("&")[0];
+        if(numero>0){
+            switch(tipo){
+                case "Antiaerea":
+                    c= new Antiaerea(id);
+                      break;
+                case "DeCaballo":
+                    c= new DeCaballo(id);
+                    break;
+                case "DeCamello":
+                    c=new DeCamello(id);
+                    break;
+                case "DeCampanha":
+                    c=new DeCampanha(id);
+                    break;
+                case "Fusilero":
+                    c=new Fusilero(id);
+                    break;
+                case "Granadero":
+                    c=new Granadero(id);
+                    break; 
+                case "Infanteria":
+                    c=new Infanteria(id);
+                    break; 
+                case "Caballeria":
+                    c=new Caballeria(id);
+                    break;
+                case "Artilleria":
+                    c=new Artilleria(id);
+                    break; 
+                default:
+                    System.out.println("fallo al crear carta");
+                    return;
+        }
+            actual.getcartas().add(c);
+            numero--;
+        }
+        else{
+            System.out.println("\nNo puede reclamar más cartas. ");
+        }
+    }
