@@ -29,19 +29,19 @@ public final class Menu {
     private HashMap<String, Jugador> Jugadores = new HashMap<>();
     private Jugador actual;
     private int n_cartas;
-    public Menu() {
+    public Menu(){
         this.n_cartas = 0;
         // Inicialización de algunos atributos
-        Scanner aux=new Scanner(System.in);
         // Iniciar juego
-        String orden= null;
+        String orden;
         int asiginicio=0;
-        BufferedReader bufferLector= null;
+        BufferedReader bufferLector;
         try {
             File fichero=  new File("comandos.csv");
             FileReader lector= new FileReader(fichero);
             bufferLector= new BufferedReader(lector);
             while((orden= bufferLector.readLine())!=null) {
+                try{
                 System.out.println("$> " + orden);
                 String[] partes=orden.split(" ");
                 String comando= partes[0];
@@ -88,7 +88,7 @@ public final class Menu {
                             actual=Jugadores.get(Jugadores.keySet().toArray()[0]);
                             break;
                         default:
-                            throw new ExcepcionComando(" Codigo de error: 101, Comando incorrecto");
+                            throw new ExcepcionComando(" Codigo de error: 101, Descripcion: \"Comando incorrecto\"");
                     }
                         break;
 
@@ -109,15 +109,17 @@ public final class Menu {
                                     asignar_carta(partes[2],n_cartas);
                                     break;
                                 default:
-                                     throw new ExcepcionComando(" Codigo de error: 101, Comando incorrecto");
+                                     throw new ExcepcionComando(" Codigo de error: 101, Descripcion: \"Comando incorrecto\"");
                             }
                         }
                         else if(partes.length==4){
                             switch (partes[1]){
                              case "mision":
                                     asignar_mision (partes[2],partes[3]);
+                                    break;
                              case "pais":
                                     asignarPaises(partes[2], partes[3]);
+                                    break;
                             }
                         }
                         break;
@@ -130,7 +132,7 @@ public final class Menu {
                             actual.cambiar_cartas_todas();
                             break;
                         default:
-                            throw new ExcepcionComando(" Codigo de error: 101, Comando incorrecto");
+                            throw new ExcepcionComando(" Codigo de error: 101, Descripcion: \"Comando incorrecto\"");
                     }
                         break;
 
@@ -147,7 +149,7 @@ public final class Menu {
                             }
                             //if(partes.length==2)
                         }
-                        else throw new ExcepcionComando(" Codigo de error: 101, Comando incorrecto");
+                        else throw new ExcepcionComando(" Codigo de error: 101, Descripcion: \"Comando incorrecto\"");
                         break;
                     case "describir":
                         if(partes.length==3){
@@ -161,12 +163,12 @@ public final class Menu {
                                 case "continente":
                                     describir_continente(partes[2]);
                                     break;
-                                default:throw new ExcepcionComando(" Codigo de error: 101, Comando incorrecto");
+                                default:throw new ExcepcionComando(" Codigo de error: 101, Descripcion: \"Comando incorrecto\"");
                         
                             }
                         }
                         else{
-                           throw new ExcepcionComando(" Codigo de error: 101, Comando incorrecto");
+                           throw new ExcepcionComando(" Codigo de error: 101, Descripcion: \"Comando incorrecto\"");
                         }
                         break;
                     case "atacar":
@@ -178,7 +180,7 @@ public final class Menu {
                             atacar(partes[1],partes[2]);
                             break;
                         default:
-                            throw new ExcepcionComando(" Codigo de error: 101, Comando incorrecto");
+                            throw new ExcepcionComando(" Codigo de error: 101, Descripcion: \"Comando incorrecto\"");
                     }
                         break;
 
@@ -208,11 +210,14 @@ public final class Menu {
                     case "rearmar":
                         rearmar(partes[1], Integer.parseInt(partes[2]),partes[3]);
                    default:
-                        throw new ExcepcionComando(" Codigo de error: 101, Comando incorrecto");
+                        throw new ExcepcionComando(" Codigo de error: 101, Descripcion: \"Comando incorrecto\"");
                 } 
+            }catch(NumberFormatException | ExcepcionComando | ExcepcionGeo | ExcepcionJugador excepcion ){
+                 excepcion.printStackTrace();
             }
-        } catch(IOException | NumberFormatException | ExcepcionComando | ExcepcionGeo excepcion) {
-            excepcion.printStackTrace();
+            }      
+            }catch(IOException | NumberFormatException  excepcion ) {
+                excepcion.printStackTrace();
         }
         
     }
@@ -223,8 +228,9 @@ public final class Menu {
     
 
     
-    public void crearMapa() {
+    public void crearMapa() throws ExcepcionGeo {
         // Código necesario para crear el mapa
+        if(mapa!=null) throw new ExcepcionGeo("\nCodigo de error: 107, Descripcion: \"El mapa ya ha sido creado\"");
         mapa=new Mapa();
         mapa.CreageoMapa();
         mapa.creaFrontO();
@@ -245,12 +251,15 @@ public final class Menu {
     
     /**
      * 
-     * @param jugador
-     * @param color
-     * @param file 
+     * @param nombre
+     * @param color 
+     * @throws risk.Excepcion.ExcepcionGeo 
+     * @throws risk.Excepcion.ExcepcionJugador 
      */
     
-    public void crearJugador(String nombre, String color) throws ExcepcionGeo{
+    public void crearJugador(String nombre, String color) throws ExcepcionGeo, ExcepcionJugador{
+        if (this.mapa==null) throw new ExcepcionGeo("\nCodigo de error: 106, Descripcion: \"El mapa no esta creado\"");
+        if(Jugadores.containsKey(nombre))throw new ExcepcionJugador(" Codigo de error: 104, Descripcion: \"El jugador ya existe\"");
         Jugador aux;
         switch(color){
             case "AMARILLO": break;
@@ -265,7 +274,7 @@ public final class Menu {
         Jugadores.put(nombre, aux);
         System.out.println("Jugador "+aux.getNombreJugador()+"añadido");
     }
-    public void crearJugador(File file) throws ExcepcionGeo {
+    public void crearJugador(File file) throws ExcepcionGeo, ExcepcionJugador {
         // Código necesario para crear a los jugadores del RISK
         BufferedReader br = null;
         String line = "";
@@ -296,11 +305,16 @@ public final class Menu {
 
     }
     
-    public void asignar_mision (String nombre,String identificacionmision) {
+    public void asignar_mision (String nombre,String identificacionmision) throws ExcepcionJugador {
         String colorj;
         Mision aux;
         int a=0;
-        if (identificacionmision.charAt(0)!='M'){System.out.println("identificacion no valida");}
+        if(Jugadores.isEmpty())throw new ExcepcionJugador(" Codigo de error: 105, Descripcion: \"Los jugadores no están creados\"");
+        if(!Jugadores.containsKey(nombre)){
+            throw new ExcepcionJugador(" Codigo de error: 103, Descripcion: \"El jugador no existe\"");
+        }
+        Jugador player = Jugadores.get(nombre);
+        if (identificacionmision.charAt(0)!='M')System.out.println("identificacion no valida");
         else{
             if(Misiones.containsKey(identificacionmision)){
                System.out.println("Mision ya asignada"); 
@@ -326,16 +340,12 @@ public final class Menu {
                 }
                 if(a==0){aux = new Mision(identificacionmision); }
                 else aux = new Mision("M1");
-                Jugador player = Jugadores.get(nombre);
-                if(player!=null){
-                    Misiones.put(identificacionmision, aux);
-                    player.setmision(aux);
-
-                }
+                Misiones.put(identificacionmision, aux);
+                player.setmision(aux);
             }
         }
     }
-    public void asignar_misiones (File file){
+    public void asignar_misiones (File file) throws ExcepcionJugador{
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ";";
@@ -360,26 +370,26 @@ public final class Menu {
             }
         }
     }
-    public void asignarPaises(String jugador, String pais) {
+    public void asignarPaises(String jugador, String pais) throws ExcepcionJugador, ExcepcionGeo {
         Pais country;
-        Jugador player = Jugadores.get(jugador);
-        if(mapa.getPaises().containsKey(pais)){
-            country=mapa.getPaises().get(pais);
-            country.setJugador(player);
-            player.añadirPais(country);
-        }            
-        else System.out.println("Nombre de pais no valido");
+        Jugador player;
+        if((player=this.Jugadores.get(jugador))==null) throw new ExcepcionJugador(" Codigo de error: 103, Descripcion: \"El jugador no existe\"");
+        if(!mapa.getPaises().containsKey(pais))throw new ExcepcionGeo("\nCodigo de error: 109, Descripcion: \"El pais no existe\"");
+        country=mapa.getPaises().get(pais);
+        country.setJugador(player);
+        player.añadirPais(country);
+        this.mapa.describir_asignapais(pais);
+
     }
-    public void asignarPaises(File file){
+    public void asignarPaises(File file)throws ExcepcionJugador, ExcepcionGeo {
             // Código necesario para crear a los jugadores del RISK
         BufferedReader br = null;
-        String line = "";
+        String line;
         //Se define separador ","
-        String cvsSplitBy = ";";
         try{
             br = new BufferedReader(new FileReader(file));
             while ((line = br.readLine()) != null) {                
-                String[] datos = line.split(cvsSplitBy);
+                String[] datos = line.split(";");
                 //Imprime datos.
                //System.out.println(datos[0] + ", " + datos[1] + ", " + datos[2] + ", " + datos[3] + ", " + datos[4] + ", " + datos[5]);
                asignarPaises(datos[0],datos[1]);
@@ -486,21 +496,28 @@ public final class Menu {
                 break;
         }
     }*/
-    public void repartir_ejercitos(int numero, String pais){
+    public void repartir_ejercitos(int numero, String pais) throws ExcepcionGeo, ExcepcionJugador{
         Pais country;
         if (actual.getEjercitos().getnumero()<numero){
             System.out.println("numero no valido: mayor al numero de ejercitos disponibles");
             return;
         }
-        if((country=actual.getPaises().get(pais))==null){
-             System.out.println("El pais seleccionado no pertencece al jugador actual");
-             return;
-        }
+        if(!mapa.getPaises().containsKey(pais))throw new ExcepcionGeo("\nCodigo de error: 109, Descripcion: \"El pais no existe\"");
+        if(!actual.getPaises().containsKey(pais))throw new ExcepcionJugador("\nCodigo de error: 110, Descripcion: \"El pais no pertenece al jugador\"");
+        country=actual.getPaises().get(pais);
         country.getEjercito().aumentarejercitos(numero);
+        country.getContinente().aumentarEjercitos(numero);
         actual.getEjercitos().disminuirjercitos(numero);
         
     }
-    public void describir_jugador(String jugador){
+
+    /**
+     *
+     * @param jugador
+     * @throws ExcepcionJugador
+     */
+    public void describir_jugador(String jugador) throws ExcepcionJugador{
+        if(!Jugadores.containsKey(jugador)) throw new ExcepcionJugador(" Codigo de error: 103, Descripcion: \"El jugador no existe\"");
         Jugador aux = Jugadores.get(jugador);
         if(aux.equals(actual)){
             aux.jugador();
@@ -526,9 +543,7 @@ public final class Menu {
         }
         System.out.println("Nombre de pais no valido");
     }
-    public void describir_continente(String nombre_continente){
-        String tipo;
-        Pais country;
+    public void describir_continente(String nombre_continente) throws ExcepcionGeo{
         Continente Continente;
         for (Pais value : mapa.getPaises().values()) {
             if(value.getContinente().getabrev().equals(nombre_continente)){
@@ -537,9 +552,10 @@ public final class Menu {
                 return;
             }
         }
-        System.out.println("Nombre de continente no valido");
+        throw new ExcepcionGeo("\nCodigo de error: 102, Descripcion: \"El continente no existe\"");
+           
     }
-    public void atacar(String pais1,String dados1, String pais2, String dados2){
+    public void atacar(String pais1,String dados1, String pais2, String dados2) throws ExcepcionGeo, ExcepcionJugador{
         String valores1[], valores2[];
         ArrayList<Integer> dados_ataque=  new ArrayList<>(),dados_defensa = new ArrayList<>();
         valores1= dados2.split("x");
@@ -552,26 +568,15 @@ public final class Menu {
         }
         Collections.sort(dados_ataque, Collections.reverseOrder());
         Collections.sort(dados_defensa, Collections.reverseOrder());
-        String tipo;
-         Pais country1, country2=null;
-         verificador=0;
-         if((country1=actual.getPaises().get(pais1))==null){
-             System.out.println("El pais seleccionado no pertencece al jugador actual");
-             return;
-         }
-        if(mapa.getPaises().containsKey(pais2)){
-            if(actual.getPaises().get(pais2)== null){
-                 country2=mapa.getPaises().get(pais2);
-            }
-            else{
-                System.out.println("El jugador esta atacando a un pais propio ");
-            }
-        }       
-            
-         if(country2==null){
-             System.out.println("pais no encontrado");
-             return;
-         }
+
+        Pais country1, country2;
+        verificador=0;
+        if(!mapa.getPaises().containsKey(pais1))throw new ExcepcionGeo("\nCodigo de error: 109, Descripcion: \"El pais no existe\"");
+        if(!(actual.getPaises().containsKey(pais1)))throw new ExcepcionJugador("\nCodigo de error: 110, Descripcion: \"El pais no pertenece al jugador\"");
+        country1=actual.getPaises().get(pais1);
+        if(!mapa.getPaises().containsKey(pais2))throw new ExcepcionGeo("\nCodigo de error: 109, Descripcion: \"El pais no existe\"");
+        if(actual.getPaises().containsKey(pais2))throw new ExcepcionJugador("\nCodigo de error: 111, Descripcion: \"El pais pertenece al jugador\"");
+        country2=mapa.getPaises().get(pais2);
          for (Point value : country1.getFronteras()) {
            /*for (Point value2 : country2.getFronteras()) {
                if(value1.equals(value2)){
@@ -591,8 +596,14 @@ public final class Menu {
          }
          int i=0;
          for (Integer valor: dados_ataque){
-             if(valor>dados_ataque.get(i)) country2.getEjercito().disminuirjercitos(1);
-             else if(valor<dados_defensa.get(i)) country2.getEjercito().disminuirjercitos(1);
+             if(valor>dados_ataque.get(i)){ 
+                 country2.getEjercito().disminuirjercitos(1); 
+                 country2.getContinente().disminuirEjercitos(1);
+             }
+             else if(valor<dados_defensa.get(i)){
+                 country1.getEjercito().disminuirjercitos(1);
+                 country1.getContinente().disminuirEjercitos(1);
+             }
              if(country2.getEjercito().getnumero()==0){
                country2.getJugador().getPaises().remove(country2);
                actual.añadirPais(country2);
@@ -640,11 +651,17 @@ public final class Menu {
              return;
          }
          d1=new Dados(country1.getEjercito().getnumero(),'a');
-         d2=new Dados(country1.getEjercito().getnumero(),'d');
+         d2=new Dados(country2.getEjercito().getnumero(),'d');
          int i=0;
          for (Integer valor: d1.gettiradas()){
-             if(valor>d2.gettiradas().get(i)) country2.getEjercito().disminuirjercitos(1);
-             else if(valor<d2.gettiradas().get(i)) country2.getEjercito().disminuirjercitos(1);
+             if(valor>d2.gettiradas().get(i)){
+                 country2.getEjercito().disminuirjercitos(1);
+                 country2.getContinente().disminuirEjercitos(1);
+             }
+             else if(valor<d2.gettiradas().get(i)){
+                 country1.getEjercito().disminuirjercitos(1);
+                 country1.getContinente().disminuirEjercitos(1);
+             }
              if(country2.getEjercito().getnumero()==0){
                country2.getJugador().getPaises().remove(country2);
                actual.añadirPais(country2);
@@ -655,17 +672,13 @@ public final class Menu {
              if(i==d2.gettiradas().size())break;
          }  
      }
-    public void rearmar(String pais1, int num,String pais2){
+    public void rearmar(String pais1, int num,String pais2) throws ExcepcionJugador, ExcepcionGeo{
         Pais country1, country2; 
         verificador=0;
-        if((country1=actual.getPaises().get(pais1))==null){
-             System.out.println("El pais seleccionado no pertencece al jugador actual");
-             return;
-        }
-        if((country2=actual.getPaises().get(pais2))==null){
-             System.out.println("El pais seleccionado no pertencece al jugador actual");
-             return;
-        }
+        if(!mapa.getPaises().containsKey(pais1)) throw new ExcepcionGeo("\nCodigo de error: 109, Descripcion: \"El pais no existe\"");
+        if(!mapa.getPaises().containsKey(pais2)) throw new ExcepcionGeo("\nCodigo de error: 109, Descripcion: \"El pais no existe\"");
+        if((country1=actual.getPaises().get(pais1))==null)throw new ExcepcionJugador("\nCodigo de error: 110, Descripcion: \"El pais no pertenece al jugador\"");
+        if((country2=actual.getPaises().get(pais2))==null)throw new ExcepcionJugador("\nCodigo de error: 110, Descripcion: \"El pais no pertenece al jugador\"");
         for (Point value : country1.getFronteras()) {
             if(mapa.getMapa().get(value).getPaisCelda().equals(country2)){
                 verificador=1;
@@ -682,7 +695,9 @@ public final class Menu {
         }
         else{
             country1.getEjercito().disminuirjercitos(num);
+            country1.getContinente().disminuirEjercitos(num);
             country2.getEjercito().aumentarejercitos(num);
+            country2.getContinente().aumentarEjercitos(num);
         }
     }
     public void asignar_carta(String id, int numero){
